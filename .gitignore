@@ -1,2 +1,22 @@
-node_modules
-.env
+.DS_Store 
+node_modules 
+/dist 
+    
+#fichiers env 
+locaux .env.local 
+.env.*.local 
+    
+#Fichiers journaux 
+npm-debug.log* 
+fil-debug.log* 
+fil-error.log* 
+pnpm-debug.log* 
+    
+#Répertoires et fichiers 
+.idea 
+.vscode 
+*.suo 
+*.ntvs* 
+*.njsproj 
+*.sln 
+*.sw?

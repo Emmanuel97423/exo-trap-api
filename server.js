@@ -37,8 +37,7 @@ const errorHandler = (error) => {
   }
 };
 
-const server = https.createServer(
-  app);
+const server = https.createServer(app);
 
 server.on("error", errorHandler);
 server.on("listening", () => {
