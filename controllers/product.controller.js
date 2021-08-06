@@ -13,9 +13,17 @@ exports.create = (req, res, next) => {
     .then(() => res.status(201).json({ message: "Objet enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
 };
-//GET toutes les sauces
+//GET tous les articles
 exports.getAll = (req, res, next) => {
   Product.find()
     .then((products) => res.status(200).json(products))
     .catch((error) => res.status(400).json({ error }));
+};
+//GET un article
+exports.getOne = (req, res, next) => {
+  Product.findOne({ id: req.body.id })
+    .then((product) => {
+      res.status(200).json(product);
+    })
+    .catch((err) => res.status(404).json(err));
 };
