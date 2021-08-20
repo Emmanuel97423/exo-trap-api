@@ -1,5 +1,6 @@
 const Product = require("../models/Product.model");
 
+
 exports.create = (req, res, next) => {
   const productObject = req.body;
   delete req.body._id;
@@ -21,7 +22,8 @@ exports.getAll = (req, res, next) => {
 };
 //GET un article
 exports.getOne = (req, res, next) => {
-  Product.findOne({ id: req.body.id })
+  console.log(req.params.id)
+  Product.findOne({ _id: req.params.id })
     .then((product) => {
       res.status(200).json(product);
     })
