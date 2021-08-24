@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
+const orderRoute = require("./routes/order.route");
 const path = require("path");
 
 const app = express();
@@ -40,5 +41,7 @@ app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
 //Route vers le stockage des images
 app.use("/images", express.static(path.join(__dirname, "images")));
+//Routage commandes
+app.use("/api/order", orderRoute)
 
 module.exports = app;
