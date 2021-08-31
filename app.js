@@ -4,6 +4,7 @@ const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
 
+
 const path = require("path");
 
 const app = express();
@@ -51,6 +52,8 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 //Routage commandes
 app.use("/api/order", orderRoute)
 //routage paiement
+//user
+app.use("/api/user", userRoute)
 
 
 

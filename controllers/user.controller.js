@@ -4,6 +4,7 @@ const User = require("../models/User.model");
 const md5 = require("md5");
 
 exports.signup = (req, res, next) => {
+  console.log(req.body)
   User.findOne({ email: md5(req.body.email) }).then((email) => {
     if (email) {
       return res
@@ -14,9 +15,13 @@ exports.signup = (req, res, next) => {
         .hash(req.body.password, 10)
         .then((hash) => {
           const user = new User({
-            userId: req.body.userId,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+
+            // userId: req.body.userId,
             email: md5(req.body.email),
             password: hash,
+            idFile: req.file.transforms[1].location
           });
           user
             .save()
