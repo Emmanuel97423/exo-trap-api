@@ -8,5 +8,6 @@ router.post("/signup", upload.single("idFile"), userCtrl.signup);
 router.post("/logout", userCtrl.logout);
 router.get("/:id", userCtrl.getOne);
 router.put("/update/:id", userCtrl.update)
+router.put("/addInvoicingAdresse/:id", userCtrl.addInvoicingAdresse)
 
 module.exports = router;

@@ -103,3 +103,14 @@ exports.update = (req, res, next) => {
 
 
 }
+//User post adress
+exports.addInvoicingAdresse = (req, res, next) => {
+
+  const invoiceAdresse = { ...req.body }
+  console.log(invoiceAdresse)
+  User.updateOne({ _id: req.body.invoiceUserId }, {
+    invoicingDetails: { ...invoiceAdresse }
+  }).then((user) => {
+    console.log(user)
+  }).catch((error) => res.status(500).json({ error }))
+}
