@@ -44,7 +44,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 
-//Routage
+//Routage Authentification
 app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
 //Route vers le stockage des images

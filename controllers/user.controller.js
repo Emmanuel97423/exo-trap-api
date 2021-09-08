@@ -41,9 +41,8 @@ exports.login = (req, res, next) => {
 
   User.findOne({ email: req.body.email })
     .then((user) => {
-      console.log(typeof (req.body.password))
-      console.log(typeof (user.password))
       if (!user) {
+
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
       bcrypt
@@ -59,6 +58,7 @@ exports.login = (req, res, next) => {
             }),
             email: user.email
           });
+          // console.log("User connected")
         })
         .catch((error) => res.status(500).json({ error }));
     })
@@ -67,7 +67,7 @@ exports.login = (req, res, next) => {
 
 //Logout
 exports.logout = (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   User.findOne({ _id: req.body._id }).then(() => {
     res.status(200).json({
       userId: null,
@@ -78,8 +78,8 @@ exports.logout = (req, res, next) => {
 
 //User details
 exports.getOne = (req, res, next) => {
-  // console.log(req.params.id)
-  // console.log(typeof (userId))
+  console.log(req.params)
+
   User.findOne({ _id: req.params.id }).then((user) => {
     console.log(user)
     res.status(200).json(user);
