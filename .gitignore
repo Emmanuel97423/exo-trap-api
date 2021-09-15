@@ -6,6 +6,7 @@ dataSchema.drawio
 #fichiers env 
 locaux .env.local 
 .env.*.local 
+.env
     
 #Fichiers journaux 
 npm-debug.log* 

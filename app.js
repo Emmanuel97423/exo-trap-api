@@ -3,9 +3,14 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
+var cors = require('cors')
+
+
 const path = require("path");
 
 const app = express();
+
+app.use(cors())
 
 require("dotenv").config();
 
@@ -34,14 +39,21 @@ app.use((req, res, next) => {
 
 //Body parser
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.use(express.json());
 
-//Routage
+
+//Routage Authentification
 app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
 //Route vers le stockage des images
 app.use("/images", express.static(path.join(__dirname, "images")));
 //Routage commandes
 app.use("/api/order", orderRoute)
+//routage paiement
+//user
+app.use("/api/user", userRoute)
+
+
 
 module.exports = app;

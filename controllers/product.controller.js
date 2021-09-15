@@ -22,7 +22,7 @@ exports.getAll = (req, res, next) => {
 };
 //GET un article
 exports.getOne = (req, res, next) => {
-  console.log(req.params.id)
+
   Product.findOne({ _id: req.params.id })
     .then((product) => {
       res.status(200).json(product);

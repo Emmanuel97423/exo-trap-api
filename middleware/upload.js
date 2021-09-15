@@ -26,7 +26,8 @@ const upload = multer({
         key: function (req, file, cb) {
           cb(
             null,
-            Date.now().toString() + "image-original.jpg" + file.originalname
+            file.originalname
+            // Date.now().toString() + "image-original.jpg" + 
           );
         },
         transform: function (req, file, cb) {
@@ -38,7 +39,8 @@ const upload = multer({
         key: function (req, file, cb) {
           cb(
             null,
-            Date.now().toString() + "image-thumbnail" + file.originalname
+            file.originalname
+            // Date.now().toString() + "image-thumbnail" + 
           );
         },
         transform: function (req, file, cb) {
