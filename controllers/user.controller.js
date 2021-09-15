@@ -81,7 +81,7 @@ exports.getOne = (req, res, next) => {
   console.log(req.params)
 
   User.findOne({ _id: req.params.id }).then((user) => {
-    console.log(user)
+    // console.log(user)
     res.status(200).json(user);
   }).catch((err) => { res.status(404).json(err) })
 }
@@ -107,10 +107,10 @@ exports.update = (req, res, next) => {
 exports.addInvoicingAdresse = (req, res, next) => {
 
   const invoiceAdresse = { ...req.body }
-  console.log(invoiceAdresse)
+  // console.log(invoiceAdresse)
   User.updateOne({ _id: req.body.invoiceUserId }, {
     invoicingDetails: { ...invoiceAdresse }
   }).then((user) => {
-    console.log(user)
+    // console.log(user)
   }).catch((error) => res.status(500).json({ error }))
 }

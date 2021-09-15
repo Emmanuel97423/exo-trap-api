@@ -3,15 +3,14 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
+var cors = require('cors')
 
 
 const path = require("path");
 
 const app = express();
 
-//Stripe payment
-// This is a sample test API key. Sign in to see examples pre-filled with your key.
-const stripe = require("stripe")("sk_test_VePHdqKTYQjKNInc7u56JBrQ");
+app.use(cors())
 
 require("dotenv").config();
 
