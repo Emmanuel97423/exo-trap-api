@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema({
     zone: { type: String, required: false },
     zip: { type: String, required: false },
     adresse: { type: String, required: false },
+
   },
   orders: { type: Array, ref: 'Orders', required: false },
   invoices: { type: Array, ref: 'Invoices', required: false },

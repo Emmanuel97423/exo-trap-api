@@ -3,14 +3,16 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
-var cors = require('cors')
+const adressRoute = require("./routes/adress.route");
+// const cors = require('cors')
+
 
 
 const path = require("path");
 
 const app = express();
 
-app.use(cors())
+// app.use(cors())
 
 require("dotenv").config();
 
@@ -23,22 +25,22 @@ mongoose
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch((error) => console.log("Connexion à MongoDB échouée !: " + error));
 
-//Requête CORS
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-//   );
-//   next();
-// });
+// Requête CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  next();
+});
 
 //Body parser
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(express.json());
 
@@ -47,12 +49,17 @@ app.use(express.json());
 app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
 //Route vers le stockage des images
-app.use("/images", express.static(path.join(__dirname, "images")));
+// app.use("/images", express.static(path.join(__dirname, "images")));
 //Routage commandes
 app.use("/api/order", orderRoute)
 //routage paiement
 //user
 app.use("/api/user", userRoute)
+
+//Adress route
+app.use("/api/adress", adressRoute)
+
+
 
 
 

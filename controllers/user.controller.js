@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
           const user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-
+            invoicingDetails: null,
             // userId: req.body.userId,
             email: req.body.email,
             password: hash,
@@ -110,7 +110,7 @@ exports.addInvoicingAdresse = (req, res, next) => {
   // console.log(invoiceAdresse)
   User.updateOne({ _id: req.body.invoiceUserId }, {
     invoicingDetails: { ...invoiceAdresse }
-  }).then((user) => {
-    // console.log(user)
+  }).then((invoicingDetails) => {
+    console.log(invoicingDetails)
   }).catch((error) => res.status(500).json({ error }))
 }

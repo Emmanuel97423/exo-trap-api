@@ -18,7 +18,7 @@ exports.create = (req, res, next) => {
 exports.getPaymentSecret = (req, res, next) => {
     const orderObject = req.body;
     stripe.paymentIntents.create({
-        amount: orderObject.amount * 100,
+        amount: Math.round(orderObject.amount * 100),
         currency: 'eur',
         payment_method_types: ["card"],
 
