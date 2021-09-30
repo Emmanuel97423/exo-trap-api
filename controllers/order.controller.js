@@ -1,4 +1,4 @@
-const { CodeCommit } = require("aws-sdk");
+// const { CodeCommit } = require("aws-sdk");
 const Order = require("../models/Order.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 
@@ -29,4 +29,18 @@ exports.getPaymentSecret = (req, res, next) => {
 
 
 
+}
+
+exports.allOrders = (req, res, next) => {
+
+    Order.find({ userId: req.params.id }).then((orders) => {
+        res.status(200).json({ orders: orders })
+    }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
+}
+
+exports.getOne = (req, res, next) => {
+    console.log(req.params.id)
+    Order.findOne({ _id: req.params.id }).then((order) => {
+        res.status(200).json(order)
+    }).catch((error) => { res.status(404).json({ message: 'Pas de commande' }) })
 }
