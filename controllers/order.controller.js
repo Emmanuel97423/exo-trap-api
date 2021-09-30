@@ -1,14 +1,25 @@
 // const { CodeCommit } = require("aws-sdk");
 const Order = require("../models/Order.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
+const dayjs = require('dayjs')
+require('dayjs/locale/fr')
+
+const initialName = require('../utils/initialName')
+
+
 
 
 exports.create = (req, res, next) => {
-
     const orderObject = req.body;
+    const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
+    console.log('initial:', initial)
+
+
     console.log('orderObject:', orderObject);
     const order = new Order({
-        ...orderObject
+        ...orderObject,
+        date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
+        orderNumberId: initial + dayjs().locale('fr').format('MMDDYYHHmm'),
     });
     order.save().then(() => { res.status(200).json({ message: "commander enregistré avec succé" }) }).catch(err => res.status(500).json({ error: err }))
 

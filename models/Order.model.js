@@ -21,6 +21,7 @@ const orderSchema = mongoose.Schema({
     // tax: { type: Number, required: false },
     // amountTotal: { type: Number, required: false },
     date: { type: String, required: false },
+    orderNumberId: { type: String, required: false },
 
 })
 
