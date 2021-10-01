@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
+const auth = require("../middleware/auth");
 
 // const md5 = require("md5");
 
@@ -56,7 +57,10 @@ exports.login = (req, res, next) => {
             token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
             }),
-            email: user.email
+            email: user.email,
+            data: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+              expiresIn: "24h",
+            }),
           });
           // console.log("User connected")
         })
@@ -113,4 +117,25 @@ exports.addInvoicingAdresse = (req, res, next) => {
   }).then((invoicingDetails) => {
     console.log(invoicingDetails)
   }).catch((error) => res.status(500).json({ error }))
+}
+
+//Me details
+exports.me = async (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  const userId = decodedToken.userId;
+  // console.log('userId:', userId)
+  try {
+    return res.json({
+      status: 'success',
+      user: {
+        token: token,
+        userId: userId
+      }
+    })
+  } catch (error) { console.error(error) }
+  // User.findOne({ _id: req.params.id }).then((user) => {
+  //   // console.log(user)
+  //   res.status(200).json(user);
+  // }).catch((err) => { res.status(404).json(err) })
 }
