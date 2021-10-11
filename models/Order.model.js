@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-    userId: { type: String, required: false },
+    userId: { type: String, required: true },
     customer: {
 
-        adresse: { type: String, required: true },
+        adresse: { type: String, required: false },
         company: { type: String, required: false },
-        country: { type: String, required: true },
-        email: { type: String, required: true },
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
+        country: { type: String, required: false },
+        email: { type: String, required: false },
+        firstName: { type: String, required: false },
+        lastName: { type: String, required: false },
         orderReview: { type: String, required: false },
         zip: { type: Number, required: false },
         zone: { type: String, required: false }

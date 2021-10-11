@@ -21,27 +21,13 @@ exports.create = (req, res, next) => {
     })
 
 
-
-
-
 }
 
-exports.getAdresses = (req, res, next) => {
+exports.getAdress = (req, res, next) => {
     const id = req.params.id
-
+    console.log('id:', id)
     Adress.findOne({ userId: id })
         .then((adresses) => res.status(200).json(adresses))
         .catch((error) => res.status(400).json({ error }));
 }
 
-//User update
-// exports.update = (req, res, next) => {
-//     console.log(req.body)
-//     const adressObject = { ...req.body }
-//     Adress.updateOne({ userId: req.body.userId }, {
-//         ...adressObject,
-
-//     }).then(() => res.status(200).json({ message: "Objet modifié !" }))
-//         .catch((error) => res.status(400).json({ error }));
-
-// }
