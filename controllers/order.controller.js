@@ -1,5 +1,6 @@
 // const { CodeCommit } = require("aws-sdk");
 const Order = require("../models/Order.model")
+const Product = require("../models/Product.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs')
 require('dayjs/locale/fr')
@@ -11,16 +12,33 @@ require('dayjs/locale/fr')
 
 exports.create = (req, res, next) => {
     const orderObject = req.body;
-    console.log('orderObject:', orderObject)
+    // console.log('orderObject:', orderObject)
     // const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
-
 
     const order = new Order({
         ...orderObject,
         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
-        orderNumberId: initial + dayjs().locale('fr').format('MMDDYYHHmm'),
+        orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
     });
-    order.save().then(() => { res.status(200).json({ message: "commander enregistré avec succé" }) }).catch(err => res.status(500).json({ error: err }))
+    order.save().then(() => {
+
+        const products = orderObject.products
+        // console.log('product:', products)
+
+        for (const product of products) {
+            console.log('product:', product)
+            let decQuantity = product.orderQuantity
+            console.log('decQuantity:', decQuantity)
+            Product.updateOne({ _id: product._id }, { $inc: { quantity: - decQuantity } })
+                .then(() => {
+                    console.log('Décrementation du stock OK')
+                }).catch(err => console.log('Error:', err))
+        }
+
+
+    }).catch((err) => { console.log(err) });
+
+
 
 
 }

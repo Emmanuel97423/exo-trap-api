@@ -25,7 +25,7 @@ exports.create = (req, res, next) => {
 
 exports.getAdress = (req, res, next) => {
     const id = req.params.id
-    console.log('id:', id)
+
     Adress.findOne({ userId: id })
         .then((adresses) => res.status(200).json(adresses))
         .catch((error) => res.status(400).json({ error }));
