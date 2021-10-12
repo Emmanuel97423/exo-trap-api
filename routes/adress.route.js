@@ -3,7 +3,7 @@ const router = express.Router();
 const adressCtrl = require("../controllers/adress.controller");
 
 router.post("/addAdress", adressCtrl.create)
-router.get("/getAdresses/:id", adressCtrl.getAdresses)
+router.get("/getAdresses/:id", adressCtrl.getAdress)
 // router.put("/updateAdress", adressCtrl.update)
 
 

@@ -124,16 +124,25 @@ exports.me = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
-  // console.log('userId:', userId)
-  try {
-    return res.json({
-      status: 'success',
-      user: {
-        token: token,
-        userId: userId
-      }
-    })
-  } catch (error) { console.error(error) }
+
+  User.findOne({ _id: userId }).then((user) => {
+
+    try {
+      return res.json({
+        status: 'success',
+        user: {
+          token: token,
+          userId: userId,
+          userObject: user
+        }
+      })
+    } catch (error) { console.error(error) }
+
+  }).catch((error) => { console.log(error) });
+
+
+
+
   // User.findOne({ _id: req.params.id }).then((user) => {
   //   // console.log(user)
   //   res.status(200).json(user);

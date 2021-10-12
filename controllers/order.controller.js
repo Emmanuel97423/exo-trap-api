@@ -4,7 +4,7 @@ const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs')
 require('dayjs/locale/fr')
 
-const initialName = require('../utils/initialName')
+// const initialName = require('../utils/initialName')
 
 
 
@@ -12,8 +12,8 @@ const initialName = require('../utils/initialName')
 exports.create = (req, res, next) => {
     const orderObject = req.body;
     console.log('orderObject:', orderObject)
-    const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
-    console.log('initial:', initial)
+    // const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
+
 
     const order = new Order({
         ...orderObject,
