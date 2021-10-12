@@ -2,7 +2,7 @@
 const Order = require("../models/Order.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs')
-// require('dayjs/locale/fr')
+require('dayjs/locale/fr')
 
 const initialName = require('../utils/initialName')
 
@@ -16,7 +16,7 @@ exports.create = (req, res, next) => {
     const order = new Order({
         ...orderObject,
         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
-        orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
+        orderNumberId: dayjs().locale('fr').format('DDMMYYHHmm'),
     });
     order.save().then(() => { res.status(200).json({ message: "commander enregistré avec succé" }) }).catch(err => res.status(500).json({ error: err }))
 
