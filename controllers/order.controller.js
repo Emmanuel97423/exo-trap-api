@@ -11,11 +11,10 @@ const initialName = require('../utils/initialName')
 
 exports.create = (req, res, next) => {
     const orderObject = req.body;
+    console.log('orderObject:', orderObject)
     const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
     console.log('initial:', initial)
 
-
-    console.log('orderObject:', orderObject);
     const order = new Order({
         ...orderObject,
         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
