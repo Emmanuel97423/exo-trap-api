@@ -8,7 +8,7 @@ require('dayjs/locale/fr')
 // const initialName = require('../utils/initialName')
 
 
-
+//Create order
 
 exports.create = (req, res, next) => {
     const orderObject = req.body;
@@ -24,7 +24,6 @@ exports.create = (req, res, next) => {
 
         const products = orderObject.products
         // console.log('product:', products)
-
         for (const product of products) {
             console.log('product:', product)
             let decQuantity = product.orderQuantity
