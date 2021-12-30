@@ -34,7 +34,7 @@ exports.signup = (req, res, next) => {
           user
             .save()
             .then((user) => {
-              console.log('user:', user._id)
+
               randomBytes(128, (err, buf) => {
                 if (err) throw err;
                 console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
@@ -44,8 +44,8 @@ exports.signup = (req, res, next) => {
                 });
                 confirmation
                   .save()
-                  .then(() => {
-                    sendEmail().then(() => {
+                  .then((confirmation) => {
+                    sendEmail(confirmation.token).then(() => {
                       console.log('Send Email Module')
                       res.status(201).json({ message: "Send Email Module!" })
                     }).catch(err => { console.log(err) });
