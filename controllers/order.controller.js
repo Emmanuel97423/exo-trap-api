@@ -3,6 +3,7 @@ const Order = require("../models/Order.model")
 const Product = require("../models/Product.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs')
+const sendEmailOrder = require('../utils/sendEmailOrder')
 require('dayjs/locale/fr')
 
 // const initialName = require('../utils/initialName')
@@ -23,16 +24,16 @@ exports.create = (req, res, next) => {
     order.save().then(() => {
 
         const products = orderObject.products
+        sendEmailOrder(orderObject.products)
         // console.log('product:', products)
         for (const product of products) {
-            console.log('product:', product)
             let decQuantity = product.orderQuantity
-            console.log('decQuantity:', decQuantity)
             Product.updateOne({ _id: product._id }, { $inc: { quantity: - decQuantity } })
                 .then(() => {
                     console.log('Décrementation du stock OK')
                 }).catch(err => console.log('Error:', err))
-        }
+        };
+
 
 
     }).catch((err) => { console.log(err) });
