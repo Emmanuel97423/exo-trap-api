@@ -1,10 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
-const auth = require("../middleware/auth");
+const UserConfirmation = require("../models/UserConfirmation.model");
+// const auth = require("../middleware/auth");
+// const mongoose = require("mongoose");
+const sendEmail = require("../utils/sendEmailConfirmation")
+
+const { randomBytes } = require('crypto');
 
 // const md5 = require("md5");
-
 
 //Signup
 exports.signup = (req, res, next) => {
@@ -29,16 +33,43 @@ exports.signup = (req, res, next) => {
           });
           user
             .save()
-            .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+            .then((user) => {
+              console.log('user:', user._id)
+              randomBytes(128, (err, buf) => {
+                if (err) throw err;
+                console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+                const confirmation = new UserConfirmation({
+                  userId: user._id,
+                  token: buf.toString('hex')
+                });
+                confirmation
+                  .save()
+                  .then(() => {
+                    sendEmail().then(() => {
+                      console.log('Send Email Module')
+                      res.status(201).json({ message: "Send Email Module!" })
+                    }).catch(err => { console.log(err) });
+                    // res.status(201).json({ message: "Utilisateur créé + token envoyé!" })
+                  })
+                  .catch((error) => console.log('Token confirmation ERROR!', error));
+                // return buf.toString('hex');
+              });
+
+              // res.status(201).json({ message: "Utilisateur créé !" })
+            })
             .catch((error) => res.status(400).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
+
+
+
     }
   });
 };
 
 //Login
 exports.login = (req, res, next) => {
+
 
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -73,7 +104,6 @@ exports.login = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
-
 //Logout
 exports.logout = (req, res, next) => {
   // console.log(req.body)
@@ -84,7 +114,6 @@ exports.logout = (req, res, next) => {
     })
   }).catch((error) => res.status(500).json({ error }))
 }
-
 //User details
 exports.getOne = (req, res, next) => {
   console.log(req.params)
@@ -123,7 +152,6 @@ exports.addInvoicingAdresse = (req, res, next) => {
     console.log(invoicingDetails)
   }).catch((error) => res.status(500).json({ error }))
 }
-
 //Me details
 exports.me = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
