@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
-const url = 'http://localhost:8080/api/emailConfirm/'
+const url = 'http://localhost:8080/api/user/confirmEmail/'
 
-const sendEmail = async (token) => {
+const sendEmail = async (token, userId) => {
     let testAccount = await nodemailer.createTestAccount();
 
     // create reusable transporter object using the default SMTP transport
@@ -21,7 +21,7 @@ const sendEmail = async (token) => {
         to: "bar@example.com, baz@example.com", // list of receivers
         subject: "Hello ✔", // Subject line
         text: "Hello world?", // plain text body
-        html: `<a href=${url}/${token}><button>Confimer mon compte</button></a>`, // html body
+        html: `<a href=${url}${token}/${userId}><button>Confimer mon compte</button></a><br>ID de confirmation`, // html body
     });
 
     console.log("Message sent: %s", info.messageId);

@@ -45,7 +45,7 @@ exports.signup = (req, res, next) => {
                 confirmation
                   .save()
                   .then((confirmation) => {
-                    sendEmail(confirmation.token).then(() => {
+                    sendEmail(confirmation.token, confirmation.userId).then(() => {
                       console.log('Send Email Module')
                       res.status(201).json({ message: "Send Email Module!" })
                     }).catch(err => { console.log(err) });
@@ -66,19 +66,35 @@ exports.signup = (req, res, next) => {
     }
   });
 };
+//confirm EMailAddress
+exports.confirmEmail = (req, res, next) => {
 
+  console.log(req.params);
+  UserConfirmation.findOne({ userId: req.params.id }).then((result) => {
+    console.log('result:', result)
+    if (result) {
+      User.updateOne({ _id: result.userId }, { actived: true }).then((user) => {
+        console.log('user:', user)
+
+      })
+    }
+
+  })
+
+
+}
 //Login
 exports.login = (req, res, next) => {
 
 
   User.findOne({ email: req.body.email })
     .then((user) => {
-      console.log('user:', user.actived)
 
-      if (!user.actived) {
-        return res.status(401).json({ error: "Veuillez confirmer votre e-mail!" });
-      } else if (!user) {
+      if (!user) {
+
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
+      } else if (!user.actived) {
+        return res.status(401).json({ error: "Veuillez confirmer votre e-mail!" });
       } else {
         bcrypt
           .compare(req.body.password, user.password)

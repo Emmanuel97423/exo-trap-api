@@ -12,4 +12,7 @@ router.put("/update/:id", userCtrl.update)
 router.put("/addInvoicingAdresse/:id", userCtrl.addInvoicingAdresse)
 router.get("/me", auth, userCtrl.me)
 
+//Confirm email confirmation
+router.get("/confirmEmail/:token/:id", userCtrl.confirmEmail)
+
 module.exports = router;
