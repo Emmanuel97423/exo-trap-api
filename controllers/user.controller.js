@@ -1,10 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
-const auth = require("../middleware/auth");
+const UserConfirmation = require("../models/UserConfirmation.model");
+// const auth = require("../middleware/auth");
+// const mongoose = require("mongoose");
+const sendEmail = require("../utils/sendEmailConfirmation")
+
+const { randomBytes } = require('crypto');
 
 // const md5 = require("md5");
-
 
 //Signup
 exports.signup = (req, res, next) => {
@@ -29,25 +33,68 @@ exports.signup = (req, res, next) => {
           });
           user
             .save()
-            .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+            .then((user) => {
+
+              randomBytes(128, (err, buf) => {
+                if (err) throw err;
+                console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+                const confirmation = new UserConfirmation({
+                  userId: user._id,
+                  token: buf.toString('hex')
+                });
+                confirmation
+                  .save()
+                  .then((confirmation) => {
+                    sendEmail(confirmation.token, confirmation.userId).then(() => {
+                      console.log('Send Email Module')
+                      res.status(201).json({ message: "Send Email Module!" })
+                    }).catch(err => { console.log(err) });
+                    // res.status(201).json({ message: "Utilisateur créé + token envoyé!" })
+                  })
+                  .catch((error) => console.log('Token confirmation ERROR!', error));
+                // return buf.toString('hex');
+              });
+
+              // res.status(201).json({ message: "Utilisateur créé !" })
+            })
             .catch((error) => res.status(400).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
+
+
+
     }
   });
 };
+//confirm EMailAddress
+exports.confirmEmail = (req, res, next) => {
 
+  console.log(req.params);
+  UserConfirmation.findOne({ userId: req.params.id }).then((result) => {
+    console.log('result:', result)
+    if (result) {
+      User.updateOne({ _id: result.userId }, { actived: true }).then((user) => {
+        console.log('user:', user)
+
+      })
+    }
+
+  })
+
+
+}
 //Login
 exports.login = (req, res, next) => {
 
+
   User.findOne({ email: req.body.email })
     .then((user) => {
-      console.log('user:', user.actived)
 
-      if (!user.actived) {
-        return res.status(401).json({ error: "Veuillez confirmer votre e-mail!" });
-      } else if (!user) {
+      if (!user) {
+
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
+      } else if (!user.actived) {
+        return res.status(401).json({ error: "Veuillez confirmer votre e-mail!" });
       } else {
         bcrypt
           .compare(req.body.password, user.password)
@@ -73,7 +120,6 @@ exports.login = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
-
 //Logout
 exports.logout = (req, res, next) => {
   // console.log(req.body)
@@ -84,7 +130,6 @@ exports.logout = (req, res, next) => {
     })
   }).catch((error) => res.status(500).json({ error }))
 }
-
 //User details
 exports.getOne = (req, res, next) => {
   console.log(req.params)
@@ -123,7 +168,6 @@ exports.addInvoicingAdresse = (req, res, next) => {
     console.log(invoicingDetails)
   }).catch((error) => res.status(500).json({ error }))
 }
-
 //Me details
 exports.me = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];

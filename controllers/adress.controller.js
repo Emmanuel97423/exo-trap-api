@@ -19,8 +19,6 @@ exports.create = (req, res, next) => {
             adress.save().then(() => { res.status(200).json({ message: "adresse enregistré avec succé" }) }).catch(err => res.status(500).json({ error: err }))
         }
     })
-
-
 }
 
 exports.getAdress = (req, res, next) => {
