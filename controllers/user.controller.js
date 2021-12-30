@@ -4,7 +4,9 @@ const User = require("../models/User.model");
 const UserConfirmation = require("../models/UserConfirmation.model");
 // const auth = require("../middleware/auth");
 // const mongoose = require("mongoose");
-const sendEmail = require("../utils/sendEmailConfirmation")
+// const sendEmail = require("../utils/sendEmailConfirmation")
+const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
+
 
 const { randomBytes } = require('crypto');
 
@@ -34,28 +36,24 @@ exports.signup = (req, res, next) => {
           user
             .save()
             .then((user) => {
-
               randomBytes(128, (err, buf) => {
                 if (err) throw err;
                 console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
                 const confirmation = new UserConfirmation({
                   userId: user._id,
-                  token: buf.toString('hex')
+                  token: buf.toString('hex'),
+                  email: user.email
                 });
                 confirmation
                   .save()
                   .then((confirmation) => {
-                    sendEmail(confirmation.token, confirmation.userId).then(() => {
-                      console.log('Send Email Module')
-                      res.status(201).json({ message: "Send Email Module!" })
-                    }).catch(err => { console.log(err) });
-                    // res.status(201).json({ message: "Utilisateur créé + token envoyé!" })
+                    //Sendrig send email service
+                    sendEmailSendgrid(confirmation)
+                    res.status(200).json({ message: "Veuillez vérifier votre e-mail afin d'activer votre compte" })
                   })
                   .catch((error) => console.log('Token confirmation ERROR!', error));
-                // return buf.toString('hex');
-              });
 
-              // res.status(201).json({ message: "Utilisateur créé !" })
+              });
             })
             .catch((error) => res.status(400).json({ error }));
         })

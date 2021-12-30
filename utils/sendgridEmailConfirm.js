@@ -1,13 +1,16 @@
 const sgMail = require('@sendgrid/mail')
+require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const url = 'http://localhost:8080/api/user/confirmEmail/'
 
-const sendGridEmail = (email) => {
+const sendGridEmail = (confirmation) => {
+    console.log('confirmation:', confirmation)
     const msg = {
-        to: `${email}`, // Change to your recipient
+        to: `${confirmation.email}`, // Change to your recipient
         from: 'loriz.lecommis@gmail.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
+        subject: 'Exo-trap: Confirmer votre compte',
         text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        html: `<a href=${url}${confirmation.token}/${confirmation.userId}><button>Confimer mon compte</button></a><br>ID de confirmation`,
     }
 
     sgMail
@@ -15,6 +18,7 @@ const sendGridEmail = (email) => {
         .then((response) => {
             console.log(response[0].statusCode)
             console.log(response[0].headers)
+            return response
         })
         .catch((error) => {
             console.error(error)
