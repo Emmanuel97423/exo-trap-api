@@ -74,6 +74,7 @@ exports.confirmEmail = (req, res, next) => {
     console.log('result:', result)
     if (result) {
       User.updateOne({ _id: result.userId }, { actived: true }).then((user) => {
+        res.redirect('https://exo-trap.re/login')
         console.log('user:', user)
 
       })
