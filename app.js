@@ -4,7 +4,7 @@ const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
 const adressRoute = require("./routes/adress.route");
-// const cors = require('cors')
+const cors = require('cors')
 
 
 
@@ -12,7 +12,7 @@ const path = require("path");
 
 const app = express();
 
-// app.use(cors())
+app.use(cors())
 
 require("dotenv").config();
 
