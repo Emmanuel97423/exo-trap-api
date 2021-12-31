@@ -49,6 +49,7 @@ exports.signup = (req, res, next) => {
                   .then((confirmation) => {
                     //Sendrig send email service
                     sendEmailSendgrid(confirmation)
+                    // sendEmail(confirmation)
                     res.status(200).json({ message: "Veuillez vérifier votre e-mail afin d'activer votre compte" })
                   })
                   .catch((error) => console.log('Token confirmation ERROR!', error));
@@ -66,21 +67,16 @@ exports.signup = (req, res, next) => {
 };
 //confirm EMailAddress
 exports.confirmEmail = (req, res, next) => {
-
-  console.log(req.params);
   UserConfirmation.findOne({ userId: req.params.id }).then((result) => {
-    console.log('result:', result)
     if (result) {
-      User.updateOne({ _id: result.userId }, { actived: true }).then((user) => {
-        res.redirect('https://exo-trap.re/login')
-        console.log('user:', user)
-
-      })
+      User.updateOne({ _id: result.userId }, { actived: true }).then(() => {
+        UserConfirmation.deleteOne({ userId: req.params.id }).then(() => {
+          console.log('supression user confirmation temp')
+          res.redirect('https://exo-trap.re/login')
+        }).catch(err => { console.log(err) })
+      }).catch(err => { console.log(err) })
     }
-
   })
-
-
 }
 //Login
 exports.login = (req, res, next) => {
