@@ -3,7 +3,7 @@ const Order = require("../models/Order.model")
 const Product = require("../models/Product.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs')
-const sendEmailOrder = require('../utils/sendEmailOrder')
+// const sendEmailOrder = require('../utils/sendEmailOrder')
 require('dayjs/locale/fr')
 
 // const initialName = require('../utils/initialName')
@@ -22,9 +22,8 @@ exports.create = (req, res, next) => {
         orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
     });
     order.save().then(() => {
-
         const products = orderObject.products
-        sendEmailOrder(orderObject.products)
+        // sendEmailOrder(orderObject.products)
         // console.log('product:', products)
         for (const product of products) {
             let decQuantity = product.orderQuantity
