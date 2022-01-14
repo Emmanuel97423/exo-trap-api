@@ -6,9 +6,9 @@ const schema = new passwordValidator();
 // Add properties to it
 schema
     .is()
-    .min(8) // 8 caractères minimum
+    .min(5) // 5 caractères minimum
     .is()
-    .max(30) // 30 caractères maximum
+    .max(25) // 25 caractères maximum
     .has()
     .uppercase() // Doit contenir 1 masjuscule
     .has()

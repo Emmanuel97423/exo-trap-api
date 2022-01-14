@@ -4,7 +4,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 const userSchema = mongoose.Schema({
   id: { type: mongoose.Schema.ObjectId, ref: "User" },
   firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  lastName: { type: String, required: false },
   invoicingDetails: {
     firstName: { type: String, required: false },
     lastName: { type: String, required: false },
