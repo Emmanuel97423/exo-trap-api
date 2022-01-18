@@ -23,7 +23,11 @@
 //         to: "bar@example.com, baz@example.com", // list of receivers
 //         subject: "Commande validée ✔", // Subject line
 //         text: "Hello world?", // plain text body
+<<<<<<< HEAD
 //         html:       `<h2>Votre commande à bien été pris en compte par nos service</h2>
+=======
+//         html: `<h2>Votre commande à bien été pris en compte par nos service</h2>
+>>>>>>> develop
 //                     <p>Consultable via  <a href="https://exo-trap.re/my-account/orders">en cliquant ici</a></p>
 //         `,
 //     });
