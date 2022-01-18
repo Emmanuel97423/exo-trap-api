@@ -4,13 +4,8 @@ const User = require("../models/User.model");
 const UserConfirmation = require("../models/UserConfirmation.model");
 // const auth = require("../middleware/auth");
 // const mongoose = require("mongoose");
-<<<<<<< HEAD
-const sendEmail = require("../utils/sendEmailConfirmation")
-const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
-=======
 // const sendEmail = require("../utils/sendEmailConfirmation")
 // const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
->>>>>>> develop
 
 
 const { randomBytes } = require('crypto');
