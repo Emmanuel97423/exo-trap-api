@@ -7,7 +7,10 @@ const url = 'https://trap-one-api.herokuapp.com/api/user/confirmEmail/';
 const sendGridEmail = (confirmation) => {
     const msg = {
         to: `${confirmation.email}`, // Change to your recipient
-        from: 'pull@exo-trap.re', // Change to your verified sender
+        from: {
+            email: 'pull@exo-trap.re',
+            name: 'Exo-trap: confirmez votre email',
+        }, // Change to your verified sender
         subject: 'Exo-trap: Confirmer votre compte',
         text: `Confirmez votre e-mail, Appuyez sur le bouton ci-dessous pour confirmer votre adresse e-mail. Si vous n'avez pas créé de compte avec.  <p style="margin: 0;"><a href=${url}${confirmation.token}/${confirmation.userId}
                                     target="_blank">${url}${confirmation.token}/${confirmation.userId}</a></p>`,
