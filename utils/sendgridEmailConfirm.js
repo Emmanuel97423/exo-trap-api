@@ -129,8 +129,7 @@ const sendGridEmail = (confirmation) => {
     <!-- start preheader -->
     <div class="preheader"
         style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-        Un pré-en-tête est le court texte récapitulatif qui suit la ligne d'objet lorsqu'un e-mail est affiché dans la
-        boîte de réception.
+        Afin d'accéder à nos services veuillez confirmer votre e-mail.
     </div>
     <!-- end preheader -->
 
