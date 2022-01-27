@@ -9,9 +9,9 @@ const sendGridEmail = (confirmation) => {
         to: `${confirmation.email}`, // Change to your recipient
         from: {
             email: 'pull@exo-trap.re',
-            name: 'Exo-trap: confirmez votre email',
+            name: 'Exo-trap',
         }, // Change to your verified sender
-        subject: 'Exo-trap: Confirmer votre compte',
+        subject: '👉 Confirmez votre e-mail',
         text: `Confirmez votre e-mail, Appuyez sur le bouton ci-dessous pour confirmer votre adresse e-mail. Si vous n'avez pas créé de compte avec.  <p style="margin: 0;"><a href=${url}${confirmation.token}/${confirmation.userId}
                                     target="_blank">${url}${confirmation.token}/${confirmation.userId}</a></p>`,
         html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
