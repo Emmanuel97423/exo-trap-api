@@ -11,10 +11,15 @@ const sendGridEmail = (confirmation) => {
         subject: 'Exo-trap: Confirmer votre compte',
         text: `Confirmez votre e-mail, Appuyez sur le bouton ci-dessous pour confirmer votre adresse e-mail. Si vous n'avez pas créé de compte avec.  <p style="margin: 0;"><a href=${url}${confirmation.token}/${confirmation.userId}
                                     target="_blank">${url}${confirmation.token}/${confirmation.userId}</a></p>`,
-        html: `<head>
+        html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xml:lang="fr" lang="fr">
+
+<head>
 
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
     <title>Confimez votre e-mail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
@@ -141,7 +146,7 @@ const sendGridEmail = (confirmation) => {
                     <tr>
                         <td align="center" valign="top" style="padding: 36px 24px;">
                             <a href="https://sendgrid.com" target="_blank" style="display: inline-block;">
-                                <img src="https://www.exo-trap.re"
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_4DAMPsJ5uIeGI6Mr5T5pD8ms3HCRXg6Gs9f__0JVzea8-AqX6PzdGL5sE400yWziFSQ&usqp=CAU"
                                     alt="Logo" border="0" width="48"
                                     style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                             </a>
@@ -244,7 +249,7 @@ const sendGridEmail = (confirmation) => {
                     <tr>
                         <td align="left" bgcolor="#ffffff"
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-                            <p style="margin: 0;">A bientôt,<br> Team Exo-trap</p>
+                            <p style="margin: 0;">A bienôt,<br> Team Exo-trap</p>
                         </td>
                     </tr>
                     <!-- end copy -->
@@ -304,7 +309,9 @@ const sendGridEmail = (confirmation) => {
     </table>
     <!-- end body -->
 
-</body>`,
+</body>
+
+</html>`,
     }
 
     sgMail
