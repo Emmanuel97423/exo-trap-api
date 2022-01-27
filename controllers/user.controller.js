@@ -5,7 +5,7 @@ const UserConfirmation = require("../models/UserConfirmation.model");
 // const auth = require("../middleware/auth");
 // const mongoose = require("mongoose");
 // const sendEmail = require("../utils/sendEmailConfirmation")
-// const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
+const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
 
 
 const { randomBytes } = require('crypto');
@@ -14,6 +14,7 @@ const { randomBytes } = require('crypto');
 
 //Signup
 exports.signup = (req, res, next) => {
+
 
   User.findOne({ email: req.body.email }).then((email) => {
     if (email) {
@@ -48,7 +49,7 @@ exports.signup = (req, res, next) => {
                   .save()
                   .then((confirmation) => {
                     //Sendrig send email service
-                    // sendEmailSendgrid(confirmation)
+                    sendEmailSendgrid(confirmation)
                     // sendEmail(confirmation)
                     res.status(200).json({ message: "Veuillez vérifier votre e-mail afin d'activer votre compte" })
                   })
