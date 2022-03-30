@@ -8,7 +8,7 @@ const adressRoute = require("./routes/adress.route");
 // const cors = require('cors')
 
 
-const path = require("path");
+// const path = require("path");
 
 const app = express();
 
