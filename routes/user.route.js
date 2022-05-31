@@ -14,9 +14,11 @@ router.post("/login", userCtrl.login);
 router.post("/signup", passwordValidator, userCtrl.signup);
 router.post("/logout", userCtrl.logout);
 router.get("/user/:id", userCtrl.getOne);
-router.put("/update/:id", userCtrl.update)
-router.put("/addInvoicingAdresse/:id", userCtrl.addInvoicingAdresse)
-router.get("/me", auth, userCtrl.me)
+router.put("/update/:id", userCtrl.update);
+router.put("/addInvoicingAdresse/:id", userCtrl.addInvoicingAdresse);
+router.get("/me", auth, userCtrl.me);
+router.post("/requestResetPassword", userCtrl.requestResetPassword);
+// router.post("/resetPassword", userCtrl.resetPassword);
 
 //Confirm email confirmation
 router.get("/confirmEmail/:token/:id", userCtrl.confirmEmail)
