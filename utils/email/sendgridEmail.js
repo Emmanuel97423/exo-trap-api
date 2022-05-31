@@ -1,19 +1,21 @@
 const sgMail = require('@sendgrid/mail')
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const url = process.env.API_URL + '/user/confirmEmail/';
-// const url = 'http://localhost:8080/api/user/confirmEmail/';
 
-const sendGridEmail = (confirmation) => {
+
+
+
+const sendGridEmailResetPassword = (response, url, email) => {
+
     const msg = {
-        to: `${confirmation.email}`, // Change to your recipient
+        to: `${email}`, // Change to your recipient
         from: {
             email: 'pull@exo-trap.re',
             name: 'Exo-trap',
         }, // Change to your verified sender
-        subject: '👉 Confirmez votre e-mail',
-        text: `Confirmez votre e-mail, Appuyez sur le bouton ci-dessous pour confirmer votre adresse e-mail. Si vous n'avez pas créé de compte avec.  <p style="margin: 0;"><a href=${url}${confirmation.token}/${confirmation.userId}
-                                    target="_blank">${url}${confirmation.token}/${confirmation.userId}</a></p>`,
+        subject: '👉 Réinitialiser votre mot de passe',
+        text: `Cliquez sur le bouton ci-dessous pour réinitialiser votre mot de passe.  <p style="margin: 0;"><a href=${url}
+                                    target="_blank">${url}</a></p>`,
         html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
 
 <html xmlns:v="urn:schemas-microsoft-com:vml" xml:lang="fr" lang="fr">
@@ -129,7 +131,7 @@ const sendGridEmail = (confirmation) => {
     <!-- start preheader -->
     <div class="preheader"
         style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-        Afin d'accéder à nos services veuillez confirmer votre e-mail.
+        Nouveau mot de passe.
     </div>
     <!-- end preheader -->
 
@@ -205,8 +207,8 @@ const sendGridEmail = (confirmation) => {
                     <tr>
                         <td align="left" bgcolor="#ffffff"
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                            <p style="margin: 0;">Appuyez sur le bouton ci-dessous pour confirmer votre adresse e-mail.
-                                Si vous n'avez pas créé de compte avec <a
+                            <p style="margin: 0;">Cliquez sur le bouton ci-dessous pour changer votre mot de passe.
+                                Si vous n'avez pas demander un changement de mot de passe <a
                                     href="https://exo-trap.re">Exo-trap.re</a>,vous pouvez supprimer cet e-mail en toute
                                 sécurité.</p>
                         </td>
@@ -222,7 +224,7 @@ const sendGridEmail = (confirmation) => {
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                                                    <a href=${url}${confirmation.token}/${confirmation.userId}
+                                                    <a href=${url}
                                                         target="_blank"
                                                         style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Confirmer</a>
                                                 </td>
@@ -241,8 +243,8 @@ const sendGridEmail = (confirmation) => {
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">Si cela ne fonctionne pas, copiez et collez le lien suivant dans votre
                                 navigateur:</p>
-                            <p style="margin: 0;"><a href=${url}${confirmation.token}/${confirmation.userId}
-                                    target="_blank">${url}${confirmation.token}/${confirmation.userId}</a></p>
+                            <p style="margin: 0;"><a href=${url}
+                                    target="_blank">${url}</a></p>
                         </td>
                     </tr>
                     <!-- end copy -->
@@ -313,21 +315,22 @@ const sendGridEmail = (confirmation) => {
 
 </body>
 
-</html>`,
-    }
-
+</html>`
+    };
     sgMail
         .send(msg)
-        .then((response) => {
-            console.log(response[0].statusCode)
-            console.log(response[0].headers)
-            return response
+        .then((res) => {
+
+            console.log(res[0].statusCode)
+            console.log(res[0].headers)
+            return response.status(200).json({ "message": "Un E-mail vous a été envoyé" });
+
         })
         .catch((error) => {
             console.error(error)
+            return response.status(500).json({ "error_message": "Une erreur s'est produite" })
+
         })
 }
 
-
-
-module.exports = sendGridEmail;
+module.exports = { sendGridEmailResetPassword }
