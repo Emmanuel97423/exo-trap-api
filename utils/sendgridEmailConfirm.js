@@ -2,7 +2,7 @@ const sgMail = require('@sendgrid/mail')
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const url = process.env.API_URL + '/user/confirmEmail/';
-// const url = 'http://localhost:8080/api/user/confirmEmail/';
+
 
 const sendGridEmail = (confirmation) => {
     const msg = {
@@ -315,7 +315,6 @@ const sendGridEmail = (confirmation) => {
 
 </html>`,
     }
-
     sgMail
         .send(msg)
         .then((response) => {
@@ -327,7 +326,5 @@ const sendGridEmail = (confirmation) => {
             console.error(error)
         })
 }
-
-
 
 module.exports = sendGridEmail;

@@ -8,7 +8,7 @@ const UserConfirmation = require("../models/UserConfirmation.model");
 // const sendEmail = require("../utils/sendEmailConfirmation")
 const sendEmailSendgrid = require("../utils/sendgridEmailConfirm");
 
-const { requestResetPassword } = require("../services/auth.service")
+const { requestResetPassword, resetPassword } = require("../services/auth.service")
 
 
 const { randomBytes } = require('crypto');
@@ -204,4 +204,7 @@ exports.me = async (req, res, next) => {
 //Reset password
 exports.requestResetPassword = async (req, res, next) => {
   requestResetPassword(req, res)
+}
+exports.resetPassword = async (req, res, next) => {
+  resetPassword(req, res)
 }

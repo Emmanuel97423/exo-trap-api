@@ -18,9 +18,9 @@ router.put("/update/:id", userCtrl.update);
 router.put("/addInvoicingAdresse/:id", userCtrl.addInvoicingAdresse);
 router.get("/me", auth, userCtrl.me);
 router.post("/requestResetPassword", userCtrl.requestResetPassword);
-// router.post("/resetPassword", userCtrl.resetPassword);
+router.post("/resetPassword/:token/:id", passwordValidator, userCtrl.resetPassword);
 
 //Confirm email confirmation
-router.get("/confirmEmail/:token/:id", userCtrl.confirmEmail)
+router.get("/confirmEmail/:token/:id", userCtrl.confirmEmail);
 
 module.exports = router;
