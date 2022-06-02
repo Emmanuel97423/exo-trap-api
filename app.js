@@ -34,7 +34,7 @@ mongoose
 
 // Requête CORS
 // app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "localhost");
+//   res.setHeader("Access-Control-Allow-Origin", "*");
 //   res.setHeader("Access-Control-Allow-Credentials", "true");
 //   res.setHeader(
 //     "Access-Control-Allow-Headers",
@@ -46,15 +46,23 @@ mongoose
 //   );
 //   next();
 // });
-
+app.use(cors())
 //Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.json());
 
+// let whitelist = ['http://localhost:4000', 'https://exo-trap.re']
+// let corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 
-
-app.use(cors())
 //Routage Authentification
 app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
