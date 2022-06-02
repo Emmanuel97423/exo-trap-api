@@ -1,14 +1,18 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
+const Token = require("../models/Token.model");
 const UserConfirmation = require("../models/UserConfirmation.model");
 // const auth = require("../middleware/auth");
 // const mongoose = require("mongoose");
 // const sendEmail = require("../utils/sendEmailConfirmation")
-const sendEmailSendgrid = require("../utils/sendgridEmailConfirm")
+const sendEmailSendgrid = require("../utils/sendgridEmailConfirm");
+
+const { requestResetPassword, resetPassword } = require("../services/auth.service")
 
 
 const { randomBytes } = require('crypto');
+
 
 // const md5 = require("md5");
 
@@ -25,6 +29,7 @@ exports.signup = (req, res, next) => {
       bcrypt
         .hash(req.body.password, 10)
         .then((hash) => {
+          const token = jwt.sign({ email: req.body.email }, 'JWTSecret');
           const user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -32,8 +37,10 @@ exports.signup = (req, res, next) => {
             // userId: req.body.userId,
             email: req.body.email,
             password: hash,
+            token: token
             // idFile: req.file.transforms[1].location
           });
+
           user
             .save()
             .then((user) => {
@@ -192,4 +199,12 @@ exports.me = async (req, res, next) => {
   //   // console.log(user)
   //   res.status(200).json(user);
   // }).catch((err) => { res.status(404).json(err) })
+}
+
+//Reset password
+exports.requestResetPassword = async (req, res, next) => {
+  requestResetPassword(req, res)
+}
+exports.resetPassword = async (req, res, next) => {
+  resetPassword(req, res)
 }

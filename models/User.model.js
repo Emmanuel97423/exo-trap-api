@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema({
   admin: { type: Boolean, required: false },
   idFile: { type: String, required: false },
   actived: { type: Boolean, default: false },
+  token: { type: String, required: true },
 });
 
 userSchema.plugin(uniqueValidator);
