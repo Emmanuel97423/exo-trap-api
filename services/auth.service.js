@@ -48,14 +48,14 @@ const resetPassword = (req, res) => {
     const password = req.body.password
     Token.findOne({ userId: userId }).then((token) => {
         if (!token) {
-            return res.status(400).json({ "message": "Lien est invalide ou à expérirer" })
+            return res.status(400).json({ "passwordError": "le lien est invalide ou à expérirer" })
         }
         bcrypt.compare(tokenParams, token.token).then((data) => {
             if (!data) {
-                return res.status(400).json({ "message": "Lien est invalide ou à expérirer" })
+                return res.status(400).json({ "passwordError": "Le lien est invalide ou à expérirer" })
             }
             if (!password) {
-                return res.status(400).json({ "message": "Mot de passe manquant" })
+                return res.status(400).json({ "passwordError": "Mot de passe manquant" })
             }
             bcrypt.hash(password, Number(bcryptSalt)).then((hash) => {
                 User.updateOne({ _id: userId }, { $set: { password: hash } }).then(() => {
