@@ -1,10 +1,11 @@
 // const { CodeCommit } = require("aws-sdk");
-const Order = require("../models/Order.model")
-const Product = require("../models/Product.model")
+const Order = require("../models/Order.model");
+const Product = require("../models/Product.model");
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
-const dayjs = require('dayjs')
+const dayjs = require('dayjs');
 // const sendEmailOrder = require('../utils/sendEmailOrder')
-require('dayjs/locale/fr')
+const { createCheckoutStripePayment } = require("../services/stripe/stripePayment.service");
+require('dayjs/locale/fr');
 
 // const initialName = require('../utils/initialName')
 
@@ -70,4 +71,8 @@ exports.getOne = (req, res, next) => {
     Order.findOne({ _id: req.params.id }).then((order) => {
         res.status(200).json(order)
     }).catch((error) => { res.status(404).json({ message: 'Pas de commande' }) })
+}
+
+exports.stripeCheckout = async (req, res, next) => {
+    createCheckoutStripePayment(req, res)
 }
