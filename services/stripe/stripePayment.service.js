@@ -33,11 +33,11 @@ const createCheckoutStripePayment = async (req, res, next) => {
             line_items: productsArray,
             mode: 'payment',
             success_url: process.env.CLIENT_URL + '/payment/sucess',
-            cancel_url: process.env.CLIENT_URL + '/payment/error',
+            cancel_url: process.env.CLIENT_URL + '/',
         });
         // console.log('session:', session)
-        res.redirect(303, session.url);
-        // res.status(200).json({ "session": session })
+        // res.redirect(303, session.url);
+        res.status(200).json({ "session": session })
     } catch (error) {
         res.status(500).json({ "error": error })
     }

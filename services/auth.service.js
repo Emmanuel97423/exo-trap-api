@@ -42,7 +42,7 @@ const requestResetPassword = (req, res) => {
 }
 
 const resetPassword = (req, res) => {
-    console.log('req:', req.params)
+
     const userId = req.params.id;
     const tokenParams = req.params.token;
     const password = req.body.password
