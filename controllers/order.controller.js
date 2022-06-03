@@ -76,3 +76,16 @@ exports.getOne = (req, res, next) => {
 exports.stripeCheckout = async (req, res, next) => {
     createCheckoutStripePayment(req, res)
 }
+
+exports.success = async (req, res, next) => {
+    try {
+        const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+        console.log('session:', session)
+        const customer = await stripe.customers.retrieve(session.customer);
+        res.status(200).json({ message: customer })
+    } catch (error) {
+        res.status(500).json({ Error: error })
+    }
+}
+
+
