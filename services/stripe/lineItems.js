@@ -27,7 +27,7 @@ class Lineitems {
                 product_data: {
                     name: this._name,
                 },
-                unit_amount: Math.round(this._unit_amount),
+                unit_amount: Math.round(this._unit_amount * 100),
             },
             quantity: this._quantity,
         }
