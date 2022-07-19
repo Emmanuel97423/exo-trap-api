@@ -5,6 +5,7 @@ const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
 const adressRoute = require("./routes/adress.route");
+const ProductGammesRoute = require('./routes/gammes.route');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors')
 
@@ -66,6 +67,7 @@ app.use(express.json());
 //Routage Authentification
 app.use("/api/auth", userRoute);
 app.use("/api/product", productRoute);
+app.use("/api/gammes", ProductGammesRoute)
 //Route vers le stockage des images
 // app.use("/images", express.static(path.join(__dirname, "images")));
 //Routage commandes
