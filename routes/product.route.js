@@ -29,7 +29,7 @@ router.get("/search/:codeGamme", async (req, res, next) => {
 
 router.post("/addProduct", auth, upload.array("image", 3), productCtrl.create);
 router.get("/allProduct", productCtrl.getAll);
-router.get("/:id", productCtrl.getOne);
+router.post("/:id", productCtrl.getOne);
 
 
 //Gammes routes
