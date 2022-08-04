@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-    userId: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     customer: {
 
         adresse: { type: String, required: false },
@@ -22,6 +22,7 @@ const orderSchema = mongoose.Schema({
     // amountTotal: { type: Number, required: false },
     date: { type: String, required: false },
     orderNumberId: { type: String, required: false },
+    status: { type: String, required: true }
 
 })
 

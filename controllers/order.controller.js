@@ -1,10 +1,12 @@
 // const { CodeCommit } = require("aws-sdk");
 const Order = require("../models/Order.model");
 const Product = require("../models/Product.model");
+const User = require("../models/User.model")
 const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs');
 // const sendEmailOrder = require('../utils/sendEmailOrder')
 const { createCheckoutStripePayment } = require("../services/stripe/stripePayment.service");
+const { sendGridOrderConfirmation } = require("../utils/email/sendgridEmail")
 require('dayjs/locale/fr');
 
 // const initialName = require('../utils/initialName')
@@ -21,16 +23,24 @@ exports.create = (req, res, next) => {
         ...orderObject,
         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
         orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
+        status: "En cours de traitement..."
     });
-    order.save().then(() => {
+    order.save().then((order) => {
+        console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
+        const orderId = order.orderNumberId
         const products = orderObject.products
         // sendEmailOrder(orderObject.products)
         // console.log('product:', products)
         for (const product of products) {
             let decQuantity = product.orderQuantity
             Product.updateOne({ _id: product._id }, { $inc: { quantity: - decQuantity } })
-                .then(() => {
-                    console.log('Décrementation du stock OK')
+                .then((res) => {
+                    console.log('Décrementation du stock OK');
+                    User.findOne({ _id: orderObject.userId }).then((res) => {
+                        console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
+                        sendGridOrderConfirmation(orderId, res.email)
+                    }).catch((err) => { res.status(404).json(err) })
+
                 }).catch(err => console.log('Error:', err))
         };
 
@@ -67,7 +77,6 @@ exports.allOrders = (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-    console.log(req.params.id)
     Order.findOne({ _id: req.params.id }).then((order) => {
         res.status(200).json(order)
     }).catch((error) => { res.status(404).json({ message: 'Pas de commande' }) })
