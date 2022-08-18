@@ -5,6 +5,7 @@ const userRoute = require("./routes/user.route");
 const productRoute = require("./routes/product.route");
 const orderRoute = require("./routes/order.route");
 const adressRoute = require("./routes/adress.route");
+const categoryRoute = require("./routes/category.route");
 const ProductGammesRoute = require('./routes/gammes.route');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors')
@@ -90,6 +91,8 @@ app.use('/api/paymentSucess', async (req, res, next) => {
     res.status(500).json({ Error: error })
   }
 })
+
+app.use('/api/category', categoryRoute)
 
 
 
