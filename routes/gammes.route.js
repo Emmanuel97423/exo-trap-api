@@ -47,25 +47,28 @@ router.get('/productGamme/:id', async (req, res, next) => {
     }
 })
 
-router.post('/search/gammesValue', async (req, res, next) => {
-    try {
-        const gammes = req.body.gamme.replace('¤', ' ').split(' ');
-        gammes.map(async (item) => {
-            // try {
-            await Gammes.find({ gammeCode: item }, (err, result) => {
-                if (err) { return res.status(500).json({ "message": "Une Erreur s'est produite", "error": err }); }
+router.get('/search/', async (req, res, next) => {
+    console.log("🚀 ~ file: gammes.route.js ~ line 51 ~ router.post ~ req", req.query)
 
-                console.log('result:', result)
-            })
-            // } catch (err) {
-            //     console.log('err:', err)
 
-            // }
-        })
-    }
-    catch (error) {
-        console.log('error:', error)
-    }
+    // try {
+    //     const gammes = req.body.gamme.replace('¤', ' ').split(' ');
+    //     gammes.map(async (item) => {
+    //         // try {
+    //         await Gammes.find({ gammeCode: item }, (err, result) => {
+    //             if (err) { return res.status(500).json({ "message": "Une Erreur s'est produite", "error": err }); }
+
+    //             console.log('result:', result)
+    //         })
+    //         // } catch (err) {
+    //         //     console.log('err:', err)
+
+    //         // }
+    //     })
+    // }
+    // catch (error) {
+    //     console.log('error:', error)
+    // }
 })
 
 module.exports = router;

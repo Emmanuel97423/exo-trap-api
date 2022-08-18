@@ -4,8 +4,8 @@ class Lineitems {
     constructor(data) {
         this._data = data
         this._currency = "eur"
-        this._name = data.name
-        this._unit_amount = data.priceHt
+        this._name = data.libelle
+        this._unit_amount = data.pvTtc
         this._quantity = data.orderQuantity
 
 
@@ -27,7 +27,7 @@ class Lineitems {
                 product_data: {
                     name: this._name,
                 },
-                unit_amount: Math.round(this._unit_amount),
+                unit_amount: Math.round(this._unit_amount * 100),
             },
             quantity: this._quantity,
         }

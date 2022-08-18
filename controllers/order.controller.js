@@ -23,7 +23,7 @@ exports.create = (req, res, next) => {
         ...orderObject,
         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
         orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
-        status: "En cours de traitement..."
+        status: "En attente..."
     });
     order.save().then((order) => {
         console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
@@ -55,6 +55,7 @@ exports.create = (req, res, next) => {
 
 exports.getPaymentSecret = (req, res, next) => {
     const orderObject = req.body;
+    console.log("🚀 ~ file: order.controller.js ~ line 48 ~ orderObject", orderObject)
     stripe.paymentIntents.create({
         amount: Math.round(orderObject.amount * 100),
         currency: 'eur',

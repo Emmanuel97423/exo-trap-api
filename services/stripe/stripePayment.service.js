@@ -36,19 +36,6 @@ const createCheckoutStripePayment = async (req, res, next) => {
                 // Specify which shipping countries Checkout should provide as options for shipping locations
                 allowed_countries: ['FR'],
             },
-            // If you already have the shipping address, provide it in payment_intent_data:
-            payment_intent_data: {
-                shipping: {
-                    name: 'Jenny Rosen',
-                    address: {
-                        line1: '1234 Main Street',
-                        city: 'San Francisco',
-                        state: 'CA',
-                        country: 'US',
-                        postal_code: '94111',
-                    },
-                },
-            },
             success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: process.env.CLIENT_URL + '/',
         });
