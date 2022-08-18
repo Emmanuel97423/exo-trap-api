@@ -7,6 +7,7 @@ const orderRoute = require("./routes/order.route");
 const adressRoute = require("./routes/adress.route");
 const categoryRoute = require("./routes/category.route");
 const ProductGammesRoute = require('./routes/gammes.route');
+const searchRoute = require("./routes/search.route");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors')
 
@@ -94,6 +95,6 @@ app.use('/api/paymentSucess', async (req, res, next) => {
 
 app.use('/api/category', categoryRoute)
 
-
+app.use('/api/search', searchRoute)
 
 module.exports = app;
