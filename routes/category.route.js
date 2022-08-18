@@ -10,10 +10,11 @@ router.get('/', async (req, res, next) => {
     })
 });
 
-router.get('/subCategory', async (req, res, next) => {
-    SubCategory.find({}, (error, subCategory) => {
+router.get('/subCategory/:codeFamille', async (req, res, next) => {
+    const codeFamille = req.params.codeFamille
+    SubCategory.find({ codeFamille: codeFamille }, (error, subCategory) => {
         if (error) return res.status(500).json({ status: error });
-        if (subCategory) return res.status(200).json({ response: subCategory })
+        if (subCategory) return res.status(200).json({ subCategory })
     })
 });
 
