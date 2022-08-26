@@ -1,11 +1,17 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const { Lineitems } = require("./lineItems")
+const Order = require("../../models/Order.model");
+const Product = require("../../models/Product.model");
+const User = require("../../models/User.model")
+const dayjs = require('dayjs');
+const { sendGridOrderConfirmation } = require("../../utils/email/sendgridEmail")
+require('dayjs/locale/fr');
 
 
 
 
 const createCheckoutStripePayment = async (req, res, next) => {
-    console.log('req:', req.body)
+    // console.log('req stripe:', req.body)
 
     try {
         const products = req.body;
@@ -38,9 +44,47 @@ const createCheckoutStripePayment = async (req, res, next) => {
             },
             success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: process.env.CLIENT_URL + '/',
+
+            // success_url: 'http://localhost:3000/payment/sucess/?session_id={CHECKOUT_SESSION_ID}',
+            // cancel_url: 'http://localhost:3000/',
         });
         // console.log('session:', session)
         // res.redirect(303, session.url);
+        // console.log('session.status:', session.status)
+        // if (session.status == 'complete') {
+        //     const orderObject = req.body;
+        //     // console.log('orderObject:', orderObject)
+        //     // const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
+
+        //     const order = new Order({
+        //         ...orderObject,
+        //         date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
+        //         orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
+        //         status: "En attente..."
+        //     });
+        //     order.save().then((order) => {
+        //         console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
+        //         const orderId = order.orderNumberId
+        //         const products = orderObject.products
+        //         // sendEmailOrder(orderObject.products)
+        //         // console.log('product:', products)
+        //         for (const product of products) {
+        //             let decQuantity = product.orderQuantity
+        //             Product.updateOne({ _id: product._id }, { $inc: { quantity: - decQuantity } })
+        //                 .then((res) => {
+        //                     console.log('Décrementation du stock OK:' + product.libelle);
+        //                     User.findOne({ _id: orderObject.userId }).then((res) => {
+        //                         console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
+        //                         sendGridOrderConfirmation(orderId, res.email)
+        //                     }).catch((err) => { res.status(404).json(err) })
+
+        //                 }).catch(err => console.log('Error:', err))
+        //         };
+
+
+
+        //     }).catch((err) => { console.log(err) });
+        // }
         res.status(200).json({ "session": session })
     } catch (error) {
 
