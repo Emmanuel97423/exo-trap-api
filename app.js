@@ -83,10 +83,14 @@ app.use("/api/adress", adressRoute);
 
 app.use('/api/paymentSucess', async (req, res, next) => {
   try {
-    console.log('req:', req.query)
+    // console.log('req:', req.query)
     const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-    const customer = await stripe.customers.retrieve(session.customer);
-    res.status(200).json({ customer: customer })
+    console.log('session:', session.status)
+    // if (session.status === "complete") {
+    //   res.status(200).json({ status: customer })
+    // }
+    // const customer = await stripe.customers.retrieve(session.customer);
+    res.status(200).json({ status: session })
   } catch (error) {
     console.log('error:', error)
     res.status(500).json({ Error: error })

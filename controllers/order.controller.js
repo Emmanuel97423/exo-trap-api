@@ -16,6 +16,8 @@ require('dayjs/locale/fr');
 
 exports.create = (req, res, next) => {
     const orderObject = req.body;
+    const sessionId = req.params
+    console.log('sessionId:', sessionId)
     // console.log('orderObject:', orderObject)
     // const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
 
@@ -26,18 +28,18 @@ exports.create = (req, res, next) => {
         status: "En attente..."
     });
     order.save().then((order) => {
-        console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
+        // console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
         const orderId = order.orderNumberId
         const products = orderObject.products
         // sendEmailOrder(orderObject.products)
         // console.log('product:', products)
         for (const product of products) {
             let decQuantity = product.orderQuantity
-            Product.updateOne({ _id: product._id }, { $inc: { quantity: - decQuantity } })
+            Product.updateOne({ _id: product._id }, { $inc: { stock: - decQuantity } })
                 .then((res) => {
-                    console.log('Décrementation du stock OK');
+                    console.log('Décrementation du stock OK:' + product.libelle);
                     User.findOne({ _id: orderObject.userId }).then((res) => {
-                        console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
+                        // console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
                         sendGridOrderConfirmation(orderId, res.email)
                     }).catch((err) => { res.status(404).json(err) })
 
@@ -96,7 +98,7 @@ exports.stripeCheckout = async (req, res, next) => {
                     return res.status(200).json({ "message": `😅 Navré... le stock est indisponible pour cette quantité. Il reste ${result.stock} ${result.libelle} ` })
                 } else {
                     numberOfProductInCart--
-                    console.log('numberOfProductInCart:', numberOfProductInCart)
+                    // console.log('numberOfProductInCart:', numberOfProductInCart)
                     if (numberOfProductInCart == 0) {
                         createCheckoutStripePayment(req, res)
 
