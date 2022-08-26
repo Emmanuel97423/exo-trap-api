@@ -84,7 +84,34 @@ exports.getOne = (req, res, next) => {
 }
 
 exports.stripeCheckout = async (req, res, next) => {
-    createCheckoutStripePayment(req, res)
+    const products = req.body;
+    let numberOfProductInCart = products.length;
+    products.map((product) => {
+        const productId = product._id;
+        Product.findOne({ _id: productId }, (err, result) => {
+            if (err) res.status(400).json({ "message": "Une Erreur s'est produite", "error": err });
+            if (result) {
+                if (result.stock < product.orderQuantity) {
+                    console.log("Stock indisponible:" + result.libelle)
+                    return res.status(200).json({ "message": `😅 Navré... le stock est indisponible pour cette quantité. Il reste ${result.stock} ${result.libelle} ` })
+                } else {
+                    numberOfProductInCart--
+                    console.log('numberOfProductInCart:', numberOfProductInCart)
+                    if (numberOfProductInCart == 0) {
+                        createCheckoutStripePayment(req, res)
+
+                    } else {
+                        return
+                    }
+
+                }
+
+            } else {
+                return res.status(500).json({ "message": "Une erreur s'est produite'" })
+            }
+        })
+    })
+
 }
 
 
