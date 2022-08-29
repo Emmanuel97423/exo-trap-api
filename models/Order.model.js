@@ -22,7 +22,8 @@ const orderSchema = mongoose.Schema({
     // amountTotal: { type: Number, required: false },
     date: { type: String, required: false },
     orderNumberId: { type: String, required: false },
-    status: { type: String, required: true }
+    status: { type: String, required: true },
+    paymentSessionId: { type: String, required: true }
 
 })
 

@@ -8,7 +8,7 @@ const adressRoute = require("./routes/adress.route");
 const categoryRoute = require("./routes/category.route");
 const ProductGammesRoute = require('./routes/gammes.route');
 const searchRoute = require("./routes/search.route");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const paymentRoute = require("./routes/payment.route");
 const cors = require('cors')
 
 
@@ -81,21 +81,7 @@ app.use("/api/user", userRoute);
 //Adress route;
 app.use("/api/adress", adressRoute);
 
-app.use('/api/paymentSucess', async (req, res, next) => {
-  try {
-    // console.log('req:', req.query)
-    const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-    console.log('session:', session.status)
-    // if (session.status === "complete") {
-    //   res.status(200).json({ status: customer })
-    // }
-    // const customer = await stripe.customers.retrieve(session.customer);
-    res.status(200).json({ status: session })
-  } catch (error) {
-    console.log('error:', error)
-    res.status(500).json({ Error: error })
-  }
-})
+app.use('/api/payment', paymentRoute)
 
 app.use('/api/category', categoryRoute)
 

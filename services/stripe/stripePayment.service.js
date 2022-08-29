@@ -42,11 +42,11 @@ const createCheckoutStripePayment = async (req, res, next) => {
                 // Specify which shipping countries Checkout should provide as options for shipping locations
                 allowed_countries: ['FR'],
             },
-            success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: process.env.CLIENT_URL + '/',
+            // success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
+            // cancel_url: process.env.CLIENT_URL + '/',
 
-            // success_url: 'http://localhost:3000/payment/sucess/?session_id={CHECKOUT_SESSION_ID}',
-            // cancel_url: 'http://localhost:3000/',
+            success_url: 'http://localhost:3000/payment/sucess/?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'http://localhost:3000/',
         });
         // console.log('session:', session)
         // res.redirect(303, session.url);

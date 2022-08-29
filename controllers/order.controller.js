@@ -14,41 +14,57 @@ require('dayjs/locale/fr');
 
 //Create order
 
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
+    console.log('req:', req)
+    // const sessionStripeRequestId = await stripe.checkout.sessions.retrieve(req.query.session_id);
+
+    return
     const orderObject = req.body;
-    const sessionId = req.params
+    const sessionId = req.params.session_id
     console.log('sessionId:', sessionId)
     // console.log('orderObject:', orderObject)
     // const initial = initialName(orderObject.customer.lastName, orderObject.customer.firstName)
 
-    const order = new Order({
-        ...orderObject,
-        date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
-        orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
-        status: "En attente..."
-    });
-    order.save().then((order) => {
-        // console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
-        const orderId = order.orderNumberId
-        const products = orderObject.products
-        // sendEmailOrder(orderObject.products)
-        // console.log('product:', products)
-        for (const product of products) {
-            let decQuantity = product.orderQuantity
-            Product.updateOne({ _id: product._id }, { $inc: { stock: - decQuantity } })
-                .then((res) => {
-                    console.log('Décrementation du stock OK:' + product.libelle);
-                    User.findOne({ _id: orderObject.userId }).then((res) => {
-                        // console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
-                        sendGridOrderConfirmation(orderId, res.email)
-                    }).catch((err) => { res.status(404).json(err) })
 
-                }).catch(err => console.log('Error:', err))
-        };
+    Order.findOne({ paymentSessionId: sessionId }, (error, order) => {
+        if (error) res.status(500).json({ error: error });
+        if (order) {
+            res.status(200).json({ message: "la session de commande à expirer" })
+        } else {
+            const order = new Order({
+                ...orderObject,
+                date: dayjs().locale('fr').format('dddd, D MMMM, YYYY HH:mm'),
+                orderNumberId: dayjs().locale('fr').format('MMDDYYHHmm'),
+                status: "En attente...",
+                paymentSessionId: sessionId
+            });
+
+            order.save().then((order) => {
+                // console.log("🚀 ~ file: order.controller.js ~ line 48 ~ order.save ~ order", order)
+                const orderId = order.orderNumberId
+                const products = orderObject.products
+                // sendEmailOrder(orderObject.products)
+                // console.log('product:', products)
+                for (const product of products) {
+                    let decQuantity = product.orderQuantity
+                    Product.updateOne({ _id: product._id }, { $inc: { stock: - decQuantity } })
+                        .then((res) => {
+                            console.log('Décrementation du stock OK:' + product.libelle);
+                            User.findOne({ _id: orderObject.userId }).then((res) => {
+                                // console.log("🚀 ~ file: order.controller.js ~ line 39 ~ User.findOne ~ res", res)
+                                sendGridOrderConfirmation(orderId, res.email)
+                            }).catch((err) => { res.status(404).json(err) })
+
+                        }).catch(err => console.log('Error:', err))
+                };
 
 
 
-    }).catch((err) => { console.log(err) });
+            }).catch((err) => { console.log(err) });
+        }
+    })
+
+
 
 
 
