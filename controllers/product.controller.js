@@ -23,21 +23,35 @@ exports.getAll = (req, res, next) => {
 };
 //GET un article
 exports.getOne = (req, res, next) => {
-  console.log("🚀 ~ file: product.controller.js ~ line 28 ~ req.body.isAProductGamme", req.body.isAProductGamme)
-
-  if (req.body.isAProductGamme) {
-    Product.findOne({ codeArticle: req.params.id })
+  console.log("🚀 ~ file: product.controller.js ~ line 28 ~ req.body.isAProductGamme", req.body)
+  if (req.body.isAProductGamme === 'true') {
+    ProductGammes.findOne({ codeArticleGamme: req.body.codeArticleGamme })
       .then((product) => {
         res.status(200).json(product);
       })
       .catch((err) => res.status(404).json(err));
   } else {
-    Product.findOne({ _id: req.params.id })
+    Product.findOne({ codeArticle: req.body.codeArticle })
       .then((product) => {
+        console.log('product:', product)
         res.status(200).json(product);
       })
       .catch((err) => res.status(404).json(err));
   }
+
+  // if (req.body.isAProductGamme) {
+  //   Product.findOne({ codeArticle: req.params.id })
+  //     .then((product) => {
+  //       res.status(200).json(product);
+  //     })
+  //     .catch((err) => res.status(404).json(err));
+  // } else {
+  //   Product.findOne({ _id: req.params.id })
+  //     .then((product) => {
+  //       res.status(200).json(product);
+  //     })
+  //     .catch((err) => res.status(404).json(err));
+  // }
 
 
 };

@@ -1,14 +1,46 @@
 const express = require('express');
 const router = express.Router();
 const ProductGamme = require('../models/ProductGammes.model')
+const Product = require('../models/Product.model')
+
+
 
 router.get('/filter', async (req, res, next) => {
+    const productsArray = [];
 
-    const searchProductByCategoryRequest = req.query.search
+    const searchProductByCategoryRequest = req.query.search;
     ProductGamme.find({ codeFamille: searchProductByCategoryRequest }, (error, products) => {
-        if (error) return res.status(500).json({ error: error });
-        if (products) return res.status(200).json({ products });
-    })
+        if (error) res.status(500).json({ error: error });
+        if (products) {
+            products.filter(product => {
+                productsArray.push(product);
+
+            });
+            Product.find({ codeFamille: searchProductByCategoryRequest }, (error, singleProduct) => {
+                if (error) res.status(500).json({ error: error });
+                if (singleProduct) {
+                    singleProduct.filter(product => {
+                        if (product.codeGamme === '') {
+                            console.log('product:', product)
+
+                            productsArray.push(product);
+
+                        }
+
+                    })
+                    // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
+
+                    return res.status(200).json({ productsArray })
+
+                }
+
+            })
+
+        };
+
+
+    });
+
 
 });
 

@@ -47,38 +47,18 @@ router.post('/paymentSucess', async (req, res, next) => {
             order.save((error, orderSaveResult) => {
                 if (error) res.status(500).json({ error: error });
                 if (orderSaveResult) {
-                    if (productsOrder.length > 1) {
-                        productsOrder.forEach(product => {
-                            let decQuantity = product.orderQuantity;
-                            Product.updateOne({ _id: product._id }, { $inc: { stock: - decQuantity } }, (error, productUpdateOneResult) => {
-                                if (error) res.status(500).json({ error: error })
-                                if (productUpdateOneResult) {
-                                    console.log('Décrementation du stock OK:' + productUpdateOneResult.libelle);
-                                    User.findOne({ _id: clientOrder.userId }, (error, user) => {
-                                        if (error) res.status(500).json({ error: error })
-                                        if (user) {
-                                            console.log('user:', user)
-                                            sendGridOrderConfirmation(orderSaveResult.orderNumberId, user.email)
-
-                                        }
-                                    })
-
-                                }
-                            })
-
-                        })
-                    } else {
-                        let decQuantity = productsOrder[0].orderQuantity;
-                        Product.updateOne({ _id: productsOrder[0]._id }, { $inc: { stock: - decQuantity } }, (error, product) => {
+                    for (let i = 0; i < productsOrder.length; i++) {
+                        let decQuantity = productsOrder[i].orderQuantity;
+                        Product.updateOne({ _id: productsOrder[i]._id }, { $inc: { stock: - decQuantity } }, (error, productUpdateOneResult) => {
                             if (error) res.status(500).json({ error: error })
-                            if (product) {
-
-                                console.log('Décrementation du stock OK:' + productsOrder[0].libelle);
-                                User.findOne({ _id: orderPosted.order.userId }, (error, user) => {
+                            if (productUpdateOneResult) {
+                                console.log('Décrementation du stock OK:' + productUpdateOneResult.libelle);
+                                User.findOne({ _id: clientOrder.userId }, (error, user) => {
                                     if (error) res.status(500).json({ error: error })
                                     if (user) {
                                         console.log('user:', user)
-                                        sendGridOrderConfirmation(order.orderNumberId, user.email)
+                                        sendGridOrderConfirmation(orderSaveResult.orderNumberId, user.email);
+                                        res.status(200)
 
                                     }
                                 })
@@ -88,8 +68,54 @@ router.post('/paymentSucess', async (req, res, next) => {
 
 
                     }
-
                 }
+
+
+
+                // if (orderSaveResult) {
+                //     if (productsOrder.length > 1) {
+                //         productsOrder.forEach(product => {
+                //             let decQuantity = product.orderQuantity;
+                //             Product.updateOne({ _id: product._id }, { $inc: { stock: - decQuantity } }, (error, productUpdateOneResult) => {
+                //                 if (error) res.status(500).json({ error: error })
+                //                 if (productUpdateOneResult) {
+                //                     console.log('Décrementation du stock OK:' + productUpdateOneResult.libelle);
+                //                     User.findOne({ _id: clientOrder.userId }, (error, user) => {
+                //                         if (error) res.status(500).json({ error: error })
+                //                         if (user) {
+                //                             console.log('user:', user)
+                //                             sendGridOrderConfirmation(orderSaveResult.orderNumberId, user.email)
+
+                //                         }
+                //                     })
+
+                //                 }
+                //             })
+
+                //         })
+                //     } else {
+                //         let decQuantity = productsOrder[0].orderQuantity;
+                //         Product.updateOne({ _id: productsOrder[0]._id }, { $inc: { stock: - decQuantity } }, (error, product) => {
+                //             if (error) res.status(500).json({ error: error })
+                //             if (product) {
+
+                //                 console.log('Décrementation du stock OK:' + productsOrder[0].libelle);
+                //                 User.findOne({ _id: orderPosted.order.userId }, (error, user) => {
+                //                     if (error) res.status(500).json({ error: error })
+                //                     if (user) {
+                //                         console.log('user:', user)
+                //                         sendGridOrderConfirmation(order.orderNumberId, user.email)
+
+                //                     }
+                //                 })
+
+                //             }
+                //         })
+
+
+                //     }
+
+                // }
             })
             return
 
