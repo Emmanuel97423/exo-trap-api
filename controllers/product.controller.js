@@ -33,7 +33,6 @@ exports.getOne = (req, res, next) => {
   } else {
     Product.findOne({ codeArticle: req.body.codeArticle })
       .then((product) => {
-        console.log('product:', product)
         res.status(200).json(product);
       })
       .catch((err) => res.status(404).json(err));

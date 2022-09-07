@@ -6,6 +6,7 @@ const Product = require('../models/Product.model')
 
 
 router.get('/filter', async (req, res, next) => {
+    console.log('req:', req)
     const productsArray = [];
 
     const searchProductByCategoryRequest = req.query.search;
@@ -21,7 +22,6 @@ router.get('/filter', async (req, res, next) => {
                 if (singleProduct) {
                     singleProduct.filter(product => {
                         if (product.codeGamme === '') {
-                            console.log('product:', product)
 
                             productsArray.push(product);
 
