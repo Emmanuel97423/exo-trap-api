@@ -38,10 +38,10 @@ const createCheckoutStripePayment = async (req, res, next) => {
             payment_method_types: ['card', 'afterpay_clearpay'],
             line_items: productsArray,
             mode: 'payment',
-            // shipping_address_collection: {
-            //     // Specify which shipping countries Checkout should provide as options for shipping locations
-            //     allowed_countries: ['FR'],
-            // },
+            shipping_address_collection: {
+                // Specify which shipping countries Checkout should provide as options for shipping locations
+                allowed_countries: ['FR'],
+            },
             success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: process.env.CLIENT_URL + '/',
 
