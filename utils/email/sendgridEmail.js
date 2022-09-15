@@ -6,6 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
 const sendGridEmailResetPassword = (response, url, email) => {
+    console.log("🚀 ~ file: sendgridEmail.js ~ line 9 ~ sendGridEmailResetPassword ~ response", response)
 
     const msg = {
         to: `${email}`, // Change to your recipient

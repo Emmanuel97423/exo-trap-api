@@ -34,7 +34,7 @@ router.post('/paymentSucess', async (req, res, next) => {
     Order.findOne({ paymentSessionId: stripeSessionId }, (error, order) => {
         if (error) res.status(500).json({ error: error });
         if (order) {
-            res.status(200).json({ message: "la session de commande à expirer" })
+            res.status(401).json({ message: "La session de commande a expirée..." })
         } else {
             const order = new Order({
                 ...clientOrder,
@@ -53,21 +53,21 @@ router.post('/paymentSucess', async (req, res, next) => {
                             if (error) res.status(500).json({ error: error })
                             if (productUpdateOneResult) {
                                 console.log('Décrementation du stock OK:' + productUpdateOneResult.libelle);
-                                User.findOne({ _id: clientOrder.userId }, (error, user) => {
-                                    if (error) res.status(500).json({ error: error })
-                                    if (user) {
-                                        console.log('user:', user)
-                                        sendGridOrderConfirmation(orderSaveResult.orderNumberId, user.email);
-                                        res.status(200)
 
-                                    }
-                                })
 
                             }
                         })
 
 
-                    }
+                    };
+                    User.findOne({ _id: clientOrder.userId }, (error, user) => {
+                        if (error) res.status(500).json({ error: error })
+                        if (user) {
+                            sendGridOrderConfirmation(orderSaveResult.orderNumberId, user.email);
+                            res.status(200).json({ message: "Commande validée!" })
+
+                        }
+                    })
                 }
 
 
