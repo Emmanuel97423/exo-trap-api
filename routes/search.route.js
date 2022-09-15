@@ -6,7 +6,6 @@ const Product = require('../models/Product.model')
 
 
 router.get('/filter', async (req, res, next) => {
-    console.log('req:', req)
     const productsArray = [];
 
     const searchProductByCategoryRequest = req.query.search;
