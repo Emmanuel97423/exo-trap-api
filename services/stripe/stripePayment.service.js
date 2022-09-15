@@ -59,7 +59,7 @@ const createCheckoutStripePayment = async (req, res, next) => {
 
 
             success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: process.env.CLIENT_URL + '/',
+            cancel_url: process.env.CLIENT_URL + '/my-account/checkout-1',
 
             // success_url: 'http://localhost:3000/payment/sucess/?session_id={CHECKOUT_SESSION_ID}',
             // cancel_url: 'http://localhost:3000/',
