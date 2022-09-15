@@ -15,7 +15,7 @@ require('dayjs/locale/fr');
 //Create order
 
 exports.create = async (req, res, next) => {
-    console.log('req:', req)
+    // console.log('req:', req)
     // const sessionStripeRequestId = await stripe.checkout.sessions.retrieve(req.query.session_id);
 
     return
@@ -102,7 +102,9 @@ exports.getOne = (req, res, next) => {
 }
 
 exports.stripeCheckout = async (req, res, next) => {
-    const products = req.body;
+
+
+    const products = req.body.products;
     let numberOfProductInCart = products.length;
     products.map((product) => {
         const productId = product._id;
