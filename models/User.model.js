@@ -24,6 +24,7 @@ const userSchema = mongoose.Schema({
   idFile: { type: String, required: false },
   actived: { type: Boolean, default: false },
   token: { type: String, required: true },
+  stripeId: { type: String, required: false },
 });
 
 userSchema.plugin(uniqueValidator);
