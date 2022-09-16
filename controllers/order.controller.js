@@ -103,7 +103,6 @@ exports.getOne = (req, res, next) => {
 
 exports.stripeCheckout = async (req, res, next) => {
 
-
     const products = req.body.products;
     let numberOfProductInCart = products.length;
     products.map((product) => {
@@ -127,7 +126,7 @@ exports.stripeCheckout = async (req, res, next) => {
                 }
 
             } else {
-                return res.status(500).json({ "message": "Une erreur s'est produite'" })
+                return res.status(404).json({ "message": "Article indisponible..." })
             }
         })
     })
