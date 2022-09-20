@@ -21,7 +21,7 @@ const createCheckoutStripePayment = async (req, res, next) => {
         function addMinutes(date, minutes) {
             return new Date(date.getTime() + minutes * 60000);
         }
-        const expiresAt = addMinutes(new Date(), 10)
+        const expiresAt = addMinutes(new Date(), 30)
         // console.log("🚀 ~ file: stripePayment.service.js ~ line 25 ~ stripeSessionMethod ~ sessionExpireAt", sessionExpireAt);
 
         const session = await stripe.checkout.sessions.create({
