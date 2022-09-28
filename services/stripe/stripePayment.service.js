@@ -43,6 +43,7 @@ const createCheckoutStripePayment = async (req, res, next) => {
                 },
             },
 
+
             success_url: process.env.CLIENT_URL + '/payment/sucess?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: process.env.CLIENT_URL + '/my-account/checkout-1',
 
