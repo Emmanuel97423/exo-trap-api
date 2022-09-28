@@ -43,4 +43,43 @@ router.get('/filter', async (req, res, next) => {
 
 });
 
+router.get('/filter/subCategory', async (req, res, next) => {
+    const productsArray = [];
+
+    const searchProductBySubCategoryRequest = req.query.search;
+    ProductGamme.find({ codeSousFamille: searchProductBySubCategoryRequest }, (error, products) => {
+        if (error) res.status(500).json({ error: error });
+        if (products) {
+            console.log('products:', products)
+            products.filter(product => {
+                productsArray.push(product);
+
+            });
+            Product.find({ codeSousFamille: searchProductBySubCategoryRequest }, (error, singleProduct) => {
+                if (error) res.status(500).json({ error: error });
+                if (singleProduct) {
+                    singleProduct.filter(product => {
+                        if (product.codeGamme === '') {
+
+                            productsArray.push(product);
+
+                        }
+
+                    })
+                    // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
+
+                    return res.status(200).json({ productsArray })
+
+                }
+
+            })
+
+        };
+
+
+    });
+
+
+});
+
 module.exports = router;
