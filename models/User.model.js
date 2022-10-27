@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema({
   actived: { type: Boolean, default: false },
   token: { type: String, required: true },
   stripeId: { type: String, required: false },
+  role: { type: String, required: false },
 });
 
 userSchema.plugin(uniqueValidator);
