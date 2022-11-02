@@ -94,6 +94,12 @@ exports.allOrders = (req, res, next) => {
         res.status(200).json({ orders: orders })
     }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
 }
+exports.allOrdersAdmin = (req, res, next) => {
+
+    Order.find({}).then((orders) => {
+        res.status(200).json({ orders: orders })
+    }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
+}
 
 exports.getOne = (req, res, next) => {
     Order.findOne({ _id: req.params.id }).then((order) => {

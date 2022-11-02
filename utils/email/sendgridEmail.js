@@ -284,7 +284,7 @@ const sendGridEmailResetPassword = (response, url, email) => {
                         <td align="center" bgcolor="#e9ecef"
                             style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
                             <p style="margin: 0;">Vous avez reçu cet e-mail car nous avons reçu une demande de
-                                [type_of_action] pour votre compte. Si vous n'avez pas demandé [type_of_action], vous
+                                réinitialisation de votre mot de passe pour votre compte. Si vous n'avez pas demandé une réinitialisation de votre mot de passe, vous
                                 pouvez supprimer cet e-mail en toute sécurité.</p>
                         </td>
                     </tr>
@@ -576,9 +576,7 @@ const sendGridOrderConfirmation = (orderId, email) => {
                     <tr>
                         <td align="center" bgcolor="#e9ecef"
                             style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                            <p style="margin: 0;">Vous avez reçu cet e-mail car nous avons reçu une demande de
-                                [type_of_action] pour votre compte. Si vous n'avez pas demandé [type_of_action], vous
-                                pouvez supprimer cet e-mail en toute sécurité.</p>
+                            <p style="margin: 0;">Vous avez reçu cet e-mail car nous avons reçu une commande pour votre compte.</p>
                         </td>
                     </tr>
                     <!-- end permission -->

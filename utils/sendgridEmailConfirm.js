@@ -281,7 +281,7 @@ const sendGridEmail = (confirmation) => {
                         <td align="center" bgcolor="#e9ecef"
                             style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
                             <p style="margin: 0;">Vous avez reçu cet e-mail car nous avons reçu une demande de
-                                [type_of_action] pour votre compte. Si vous n'avez pas demandé [type_of_action], vous
+                                d'ouverture compte. Si vous n'avez pas demandé d'ouverture compte, vous
                                 pouvez supprimer cet e-mail en toute sécurité.</p>
                         </td>
                     </tr>
