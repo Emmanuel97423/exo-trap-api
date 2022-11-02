@@ -94,6 +94,27 @@ exports.allOrders = (req, res, next) => {
         res.status(200).json({ orders: orders })
     }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
 }
+exports.allOrdersAdmin = (req, res, next) => {
+
+    Order.find({}).then((orders) => {
+        res.status(200).json({ orders: orders })
+    }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
+}
+exports.changeOrderStatus = (req, res, next) => {
+    const filter = { orderNumberId: req.body.orderId }
+    const update = { status: req.body.status }
+    const orderUserId = req.body.userId
+    // Order.findOneAndUpdate(filter, { $set: update }, { new: true }, (err, order) => {
+    //     if (err) res.status(500).json(err);
+    //     if (order) res.status(200).json(order);
+    // });
+    Order.updateOne(filter, update, (err, order) => {
+        if (err) res.status(500).json(err);
+        if (order) res.status(200).json(order);
+
+    })
+
+}
 
 exports.getOne = (req, res, next) => {
     Order.findOne({ _id: req.params.id }).then((order) => {
