@@ -37,7 +37,8 @@ exports.signup = (req, res, next) => {
             // userId: req.body.userId,
             email: req.body.email,
             password: hash,
-            token: token
+            token: token,
+            role: "guest",
             // idFile: req.file.transforms[1].location
           });
 

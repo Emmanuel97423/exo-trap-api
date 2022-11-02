@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
   id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   firstName: { type: String, required: true },
   lastName: { type: String, required: false },
+
   invoicingDetails: {
     firstName: { type: String, required: false },
     lastName: { type: String, required: false },
@@ -20,7 +21,7 @@ const userSchema = mongoose.Schema({
   invoices: { type: Array, ref: 'Invoices', required: false },
   email: { type: String, required: true },
   password: { type: String, required: false },
-  admin: { type: Boolean, required: false },
+  role: { type: String, required: true },
   idFile: { type: String, required: false },
   actived: { type: Boolean, default: false },
   token: { type: String, required: true },
