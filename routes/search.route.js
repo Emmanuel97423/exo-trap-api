@@ -48,7 +48,7 @@ router.get('/filter/subCategory', async (req, res, next) => {
     const arrayRequest = req.query.searchArrayByTags
     console.log('arrayRequest:', arrayRequest)
     const searchProductBySubCategoryRequest = req.query.search;
-
+    //STart Fetch Data
     if (!arrayRequest) {
         return
     } {
