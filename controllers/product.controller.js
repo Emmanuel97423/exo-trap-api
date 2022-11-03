@@ -23,7 +23,6 @@ exports.getAll = (req, res, next) => {
 };
 //GET un article
 exports.getOne = (req, res, next) => {
-  console.log("🚀 ~ file: product.controller.js ~ line 28 ~ req.body.isAProductGamme", req.body)
   if (req.body.isAProductGamme === 'true') {
     ProductGammes.findOne({ codeArticleGamme: req.body.codeArticleGamme })
       .then((product) => {
