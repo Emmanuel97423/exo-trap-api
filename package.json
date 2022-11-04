@@ -1,5 +1,9 @@
 {
   "name": "api",
+  "engines": {
+    "node": "14.15.1",
+    "npm": "8.12.1"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

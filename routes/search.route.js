@@ -7,7 +7,8 @@ const Product = require('../models/Product.model')
 
 router.get('/filter', async (req, res, next) => {
     const productsArray = [];
-
+    const start = req.query.start
+    const size = req.query.size
     const searchProductByCategoryRequest = req.query.search;
     ProductGamme.find({ codeFamille: searchProductByCategoryRequest }, (error, products) => {
         if (error) res.status(500).json({ error: error });
@@ -28,8 +29,11 @@ router.get('/filter', async (req, res, next) => {
 
                     })
                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-
-                    return res.status(200).json({ productsArray })
+                    const totalProducts = productsArray.length;
+                    console.log('totalProducts:', totalProducts)
+                    const sliceProduct = productsArray.slice(0, start);
+                    console.log('productArray:', productsArray.slice(0, start).length);
+                    return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts })
 
                 }
 
@@ -44,11 +48,11 @@ router.get('/filter', async (req, res, next) => {
 });
 
 router.get('/filter/subCategory', async (req, res, next) => {
+    console.log('req:', req.query)
     const productsArrayTemp = [];
     const arrayRequest = req.query.searchArrayByTags
-    console.log('arrayRequest:', arrayRequest)
     const searchProductBySubCategoryRequest = req.query.search;
-
+    //STart Fetch Data
     if (!arrayRequest) {
         return
     } {
@@ -56,10 +60,9 @@ router.get('/filter/subCategory', async (req, res, next) => {
             let indexTemp = arrayRequest.length
             arrayRequest.map((request) => {
 
-                ProductGamme.find({ libelleSousFamille: request }, (error, products) => {
+                ProductGamme.find({ sousFamilleLibelle: request }, (error, products) => {
                     if (error) res.status(500).json({ error: error });
                     if (products) {
-                        // console.log('products:', products)
                         products.filter(product => {
                             productsArrayTemp.push(product);
 
@@ -67,7 +70,7 @@ router.get('/filter/subCategory', async (req, res, next) => {
                         Product.find({ libelleSousFamille: request }, (error, singleProduct) => {
                             if (error) res.status(500).json({ error: error });
                             if (singleProduct) {
-                                console.log('singleProduct:', singleProduct)
+                                // console.log('singleProduct:', singleProduct)
                                 singleProduct.filter(product => {
                                     if (product.codeGamme === '') {
 
@@ -85,10 +88,8 @@ router.get('/filter/subCategory', async (req, res, next) => {
 
 
                             };
-                            console.log('indexTemp:', indexTemp)
                             indexTemp--
                             if (indexTemp == 0) {
-                                console.log('indexTemp:', indexTemp)
 
                                 setTimeout(() => {
                                     resolve(productsArrayTemp);
@@ -194,7 +195,6 @@ router.get('/filter/subCategory', async (req, res, next) => {
         myPromise.then((productsArray) => {
             // console.log('result:', result)
             // console.log('res:', res)
-            console.log('productsArray:', productsArray)
 
             return res.status(200).json({ productsArray })
 
