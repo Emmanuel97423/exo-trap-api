@@ -30,10 +30,11 @@ router.get('/filter', async (req, res, next) => {
                     })
                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
                     const totalProducts = productsArray.length;
-                    console.log('totalProducts:', totalProducts)
                     const sliceProduct = productsArray.slice(0, start);
-                    console.log('productArray:', productsArray.slice(0, start).length);
-                    return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts })
+                    const productByPage = sliceProduct.length;
+
+
+                    return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts, productByPage: productByPage })
 
                 }
 
@@ -106,10 +107,11 @@ router.get('/filter/subCategory', async (req, res, next) => {
         })
         myPromise.then((productsArray) => {
             const totalProducts = productsArray.length;
-            console.log('totalProducts:', totalProducts)
             const sliceProduct = productsArray.slice(0, start);
-            console.log('productArray:', productsArray.slice(0, start).length);
-            return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts })
+            const productByPage = sliceProduct.length;
+
+
+            return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts, productByPage: productByPage })
 
             // return res.status(200).json({ productsArray })
 
