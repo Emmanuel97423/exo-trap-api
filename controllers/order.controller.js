@@ -6,7 +6,7 @@ const stripe = require("stripe")(process.env.STRIPE_PUBLIC_KEY);
 const dayjs = require('dayjs');
 // const sendEmailOrder = require('../utils/sendEmailOrder')
 const { createCheckoutStripePayment } = require("../services/stripe/stripePayment.service");
-const { sendGridOrderConfirmation } = require("../utils/email/sendgridEmail")
+const { sendGridOrderConfirmation, sendGridOrderChangeStatus } = require("../utils/email/sendgridEmail")
 require('dayjs/locale/fr');
 
 // const initialName = require('../utils/initialName')
@@ -101,16 +101,31 @@ exports.allOrdersAdmin = (req, res, next) => {
     }).catch((error) => { res.status(404).json({ message: 'Pas de commandes' }) })
 }
 exports.changeOrderStatus = (req, res, next) => {
-    const filter = { orderNumberId: req.body.orderId }
-    const update = { status: req.body.status }
-    const orderUserId = req.body.userId
-    // Order.findOneAndUpdate(filter, { $set: update }, { new: true }, (err, order) => {
-    //     if (err) res.status(500).json(err);
-    //     if (order) res.status(200).json(order);
-    // });
+    
+    const filter = { orderNumberId: req.body.orderId };
+    const update = { status: req.body.status };
+    const orderId = req.body.orderId;
+    const status = req.body.status;
+    const orderUserId = req.body.userId;
+   
     Order.updateOne(filter, update, (err, order) => {
-        if (err) res.status(500).json(err);
-        if (order) res.status(200).json(order);
+       
+        if (err) { 
+            console.log('err:', err)
+            return res.status(500).json(err)
+        };
+        if (order) {
+            
+            User.findOne({'_id': orderUserId}, (err, user) => {
+                if (err) res.status(500).json(err);
+                if (user){
+                // console.log('user:', user)
+            sendGridOrderChangeStatus(orderId, user.email, status)
+            res.status(200).json(order)
+
+                }
+            })
+        };
 
     })
 
