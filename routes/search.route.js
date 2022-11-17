@@ -30,9 +30,7 @@ router.get('/filter', async (req, res, next) => {
                     })
                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
                     const totalProducts = productsArray.length;
-                    console.log('totalProducts:', totalProducts)
                     const sliceProduct = productsArray.slice(0, start);
-                    console.log('productArray:', productsArray.slice(0, start).length);
                     return res.status(200).json({ productsArray: sliceProduct, totalProducts: totalProducts })
 
                 }
@@ -48,7 +46,6 @@ router.get('/filter', async (req, res, next) => {
 });
 
 router.get('/filter/subCategory', async (req, res, next) => {
-    console.log('req:', req.query)
     const productsArrayTemp = [];
     const arrayRequest = req.query.searchArrayByTags
     const searchProductBySubCategoryRequest = req.query.search;
@@ -82,10 +79,6 @@ router.get('/filter/subCategory', async (req, res, next) => {
                                     }
 
                                 })
-                                // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-
-
-
 
                             };
                             indexTemp--
@@ -105,91 +98,6 @@ router.get('/filter/subCategory', async (req, res, next) => {
             });
 
 
-            // for (let i = 0; i < arrayRequest.length; i++) {
-
-            //     ProductGamme.find({ libelleSousFamille: arrayRequest[i] }, (error, products) => {
-            //         if (error) res.status(500).json({ error: error });
-            //         if (products) {
-            //             products.filter(product => {
-            //                 productsArrayTemp.push(product);
-
-            //             });
-            //             Product.find({ libelleSousFamille: arrayRequest[i] }, (error, singleProduct) => {
-            //                 if (error) res.status(500).json({ error: error });
-            //                 if (singleProduct) {
-            //                     singleProduct.filter(product => {
-            //                         if (product.codeGamme === '') {
-            //                             console.log('arrayRequest.length - i:', i);
-            //                             console.log('arrayRequest.length:', arrayRequest.length - i)
-            //                             productsArrayTemp.push(product);
-            //                             // resolve('Promise OK');
-            //                             if (i == 1) {
-
-            //                                 resolve(productsArrayTemp);
-            //                             } else {
-            //                                 reject(null)
-            //                             }
-
-            //                         }
-
-            //                     })
-            //                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-
-
-
-
-            //                 }
-
-            //             })
-
-            //         };
-
-
-            //     });
-            //     // console.log('arrayRequest.length:', arrayRequest.length - i)
-
-            //     // console.log('i:', i);
-
-
-            // }
-
-            // return
-            // arrayRequest.map(libelleSousFamille => {
-            //     ProductGamme.find({ libelleSousFamille: libelleSousFamille }, (error, products) => {
-            //         if (error) res.status(500).json({ error: error });
-            //         if (products) {
-            //             products.filter(product => {
-            //                 productsArray.push(product);
-
-            //             });
-            //             Product.find({ libelleSousFamille: libelleSousFamille }, (error, singleProduct) => {
-            //                 if (error) res.status(500).json({ error: error });
-            //                 if (singleProduct) {
-            //                     singleProduct.filter(product => {
-            //                         if (product.codeGamme === '') {
-
-            //                             productsArray.push(product);
-            //                             resolve('Promise OK')
-
-            //                         }
-
-            //                     })
-            //                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-
-
-
-
-            //                 }
-
-            //             })
-
-            //         };
-
-
-            //     });
-
-            // });
-
 
         })
         myPromise.then((productsArray) => {
@@ -200,83 +108,45 @@ router.get('/filter/subCategory', async (req, res, next) => {
 
 
         }).catch((err) => { console.log('err:', err) })
-        // arrayRequest.map(libelleSousFamille => {
-        //     ProductGamme.find({ libelleSousFamille: libelleSousFamille }, (error, products) => {
-        //         if (error) res.status(500).json({ error: error });
-        //         if (products) {
-        //             console.log('products:', products)
-        //             products.filter(product => {
-        //                 productsArray.push(product);
-
-        //             });
-        //             Product.find({ libelleSousFamille: libelleSousFamille }, (error, singleProduct) => {
-        //                 if (error) res.status(500).json({ error: error });
-        //                 if (singleProduct) {
-        //                     console.log('singleProduct:', singleProduct)
-        //                     singleProduct.filter(product => {
-        //                         if (product.codeGamme === '') {
-
-        //                             productsArray.push(product);
-
-        //                         }
-
-        //                     })
-        //                     // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-        //                     return productsArray
-
-
-
-        //                 }
-
-        //             })
-
-        //         };
-
-
-        //     });
-
-        // });
+       
 
     }
-
-    // for (let i = 0; i < arrayRequest.length; i++) {
-    //     console.log('arrayRequest:', arrayRequest[i])
-
-    // }
-
-
-    // ProductGamme.find({ codeSousFamille: searchProductBySubCategoryRequest }, (error, products) => {
-    //     if (error) res.status(500).json({ error: error });
-    //     if (products) {
-    //         products.filter(product => {
-    //             productsArray.push(product);
-
-    //         });
-    //         Product.find({ codeSousFamille: searchProductBySubCategoryRequest }, (error, singleProduct) => {
-    //             if (error) res.status(500).json({ error: error });
-    //             if (singleProduct) {
-    //                 singleProduct.filter(product => {
-    //                     if (product.codeGamme === '') {
-
-    //                         productsArray.push(product);
-
-    //                     }
-
-    //                 })
-    //                 // console.log("🚀 ~ file: search.route.js ~ line 19 ~ Product.find ~ productsArray", productsArray)
-
-    //                 return res.status(200).json({ productsArray })
-
-    //             }
-
-    //         })
-
-    //     };
-
-
-    // });
-
-
+   
 });
+router.post('/search/products', async (req, res, next) => {
+    const request = req.body.request;
+    const productsArray = [];
+    Product.find({ "libelle": { "$regex": request, "$options": "i" } }, (error, result) => {
+    if(error) res.status(500).json({ error: error });
+    if(result){ 
+    result.map(product =>{
+        if(product.codeGamme == ''){
+            productsArray.push(product);
+        }   else {
+            return;
+        } 
+    });
+            res.status(200).json({productsArray});
+
+}
+    })
+
+router.post('/search/productsGamme', async (req, res, next) => {
+    const request = req.body.request;
+    const productsArray = [];
+         ProductGamme.find({ "libelle": { "$regex": request, "$options": "i"}}, (error, productsGammeFind) => {
+    if(error) res.status(500).json({ error: error });
+    if(productsGammeFind){
+        // console.log('productsGammeFind:', productsGammeFind)
+        productsGammeFind.map(product =>{
+                    productsArray.push(product);
+    });
+            res.status(200).json({productsArray});
+
+        }
+    })
+})
+
+})
 
 module.exports = router;
