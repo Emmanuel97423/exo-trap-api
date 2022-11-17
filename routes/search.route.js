@@ -145,6 +145,7 @@ router.post('/search/products', async (req, res, next) => {
 }
     })
 
+});
 router.post('/search/productsGamme', async (req, res, next) => {
     const request = req.body.request;
     const productsArray = [];
@@ -159,8 +160,6 @@ router.post('/search/productsGamme', async (req, res, next) => {
 
         }
     })
-})
-
 })
 
 module.exports = router;
