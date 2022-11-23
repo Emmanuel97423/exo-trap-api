@@ -20,13 +20,14 @@ const userSchema = mongoose.Schema({
   orders: { type: Array, ref: 'Orders', required: false },
   invoices: { type: Array, ref: 'Invoices', required: false },
   email: { type: String, required: true },
-  password: { type: String, required: false },
+  password: { type: String, required: true },
   role: { type: String, required: true },
   idFile: { type: String, required: false },
-  actived: { type: Boolean, default: false },
+  actived: { type: Boolean, default: true },
+  isValided:{ type: Boolean, required: true},
   token: { type: String, required: true },
   stripeId: { type: String, required: false },
-  role: { type: String, required: false },
+  role: { type: String, required: true },
 });
 
 userSchema.plugin(uniqueValidator);

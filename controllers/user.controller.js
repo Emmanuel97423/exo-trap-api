@@ -39,6 +39,8 @@ exports.signup = (req, res, next) => {
             password: hash,
             token: token,
             role: "guest",
+            actived:false,
+            isValided: false
             // idFile: req.file.transforms[1].location
           });
 
