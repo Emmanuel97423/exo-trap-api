@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const justificatifSchema = mongoose.Schema(
-  {
-    title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    }
-)
+// const justificatifSchema = mongoose.Schema(
+//   {
+//     title:{type:String, required: false},
+//       status: { type: String, default: 'unValided', required:false},
+//       statusCode: {type:Boolean, default: 0, required:false},
+//     }
+// )
 
-const validationSchema = mongoose.Schema({
- identityJustificatifRecto: { type: justificatifSchema, required:false },
-     identityJustificatifVerso:{ type: justificatifSchema, required:false },
-     adressJustificatif:{ type: justificatifSchema, required:false },
-     chassePermisJustificatif:{ type: justificatifSchema, required:false },
-     licenceTirJustificatif:{ type: justificatifSchema, required:false },
-     licenceTirFftJustificatif:{ type: justificatifSchema, required:false },
-     PermisChasseJustificatif:{ type: justificatifSchema, required:false }
-})
+// const validationSchema = mongoose.Schema({
+//  identityJustificatifRecto: { type: justificatifSchema, required:true },
+//      identityJustificatifVerso:{ type: justificatifSchema, required:true },
+//      adressJustificatif:{ type: justificatifSchema, required:true },
+//      chassePermisJustificatif:{ type: justificatifSchema, required:true },
+//      licenceTirJustificatif:{ type: justificatifSchema, required:true },
+//      licenceTirFftJustificatif:{ type: justificatifSchema, required:true },
+//      PermisChasseJustificatif:{ type: justificatifSchema, required:true }
+// })
 
 const userSchema = mongoose.Schema({
   id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -46,7 +46,17 @@ const userSchema = mongoose.Schema({
   token: { type: String, required: true },
   stripeId: { type: String, required: false },
   role: { type: String, required: true },
-  validationOptions: validationSchema
+  validationOptions: {
+    identityJustificatifRecto:{type:Boolean, default: false, required: true},
+    identityJustificatifVerso:{type:Boolean, default: false, required: true},
+    adressJustificatif: {type:Boolean, default: false, required: true},
+    chassePermisJustificatif:{type:Boolean, default: false, required: true},
+    licenceTirJustificatif:{type:Boolean, default: false, required: true},
+    licenceTirFftJustificatif:{type:Boolean, default: false, required: true},
+    PermisChasseFFBTJustificatif:{type:Boolean, default: false, required: true},
+
+
+  }
   
 },
   {timestamps: true}
