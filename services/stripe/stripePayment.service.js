@@ -49,7 +49,7 @@ const createCheckoutStripePayment = async (req, res, next) => {
 
         });
         if (session) {
-            console.log("🚀 ~ file: stripePayment.service.js ~ line 62 ~ User.findOneAndUpdate ~ session", session)
+            // console.log("🚀 ~ file: stripePayment.service.js ~ line 62 ~ User.findOneAndUpdate ~ session", session)
 
             return res.status(200).json({ "session": session })
 
