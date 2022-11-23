@@ -1,6 +1,24 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
+const justificatifSchema = mongoose.Schema(
+  {
+    title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    }
+)
+
+const validationSchema = mongoose.Schema({
+ identityJustificatifRecto: { type: justificatifSchema, required:false },
+     identityJustificatifVerso:{ type: justificatifSchema, required:false },
+     adressJustificatif:{ type: justificatifSchema, required:false },
+     chassePermisJustificatif:{ type: justificatifSchema, required:false },
+     licenceTirJustificatif:{ type: justificatifSchema, required:false },
+     licenceTirFftJustificatif:{ type: justificatifSchema, required:false },
+     PermisChasseJustificatif:{ type: justificatifSchema, required:false }
+})
+
 const userSchema = mongoose.Schema({
   id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   firstName: { type: String, required: true },
@@ -28,43 +46,7 @@ const userSchema = mongoose.Schema({
   token: { type: String, required: true },
   stripeId: { type: String, required: false },
   role: { type: String, required: true },
-  validationOptions:{ 
-    identityJustificatifRecto:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     identityJustificatifVerso:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     adressJustificatif:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     chassePermisJustificatif:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     licenceTirJustificatif:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     licenceTirFftJustificatif:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    },
-     PermisChasseJustificatif:{ 
-      title:{type:String, required: false},
-      status: { type: String, required:false},
-      statusCode: {type:Boolean, required:false},
-    }
-  }
+  validationOptions: validationSchema
   
 },
   {timestamps: true}
