@@ -28,7 +28,48 @@ const userSchema = mongoose.Schema({
   token: { type: String, required: true },
   stripeId: { type: String, required: false },
   role: { type: String, required: true },
-});
+  validationOptions:{ 
+    identityJustificatifRecto:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     identityJustificatifVerso:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     adressJustificatif:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     chassePermisJustificatif:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     licenceTirJustificatif:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     licenceTirFftJustificatif:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    },
+     PermisChasseJustificatif:{ 
+      title:{type:String, required: false},
+      status: { type: String, required:false},
+      statusCode: {type:Boolean, required:false},
+    }
+  }
+  
+},
+  {timestamps: true}
+
+);
 
 userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("User", userSchema);
