@@ -53,7 +53,7 @@ const userSchema = mongoose.Schema({
     chassePermisJustificatif:{type:Boolean, default: false, required: true},
     licenceTirJustificatif:{type:Boolean, default: false, required: true},
     licenceTirFftJustificatif:{type:Boolean, default: false, required: true},
-    PermisChasseFFBTJustificatif:{type:Boolean, default: false, required: true},
+    permisChasseFFBTJustificatif:{type:Boolean, default: false, required: true},
 
 
   }

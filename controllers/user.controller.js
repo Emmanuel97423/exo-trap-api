@@ -136,12 +136,17 @@ exports.logout = (req, res, next) => {
     })
   }).catch((error) => res.status(500).json({ error }))
 }
+//Get all users
+exports.getAllUsers = (req, res, next)=>{
+User.find({}, (error, user) => {
+  if(error) res.status(500).json({ error: error });
+  if(user) res.status(200).json({ user})
+})
+}
 //User details
 exports.getOne = (req, res, next) => {
-  console.log(req.params)
 
   User.findOne({ _id: req.params.id }).then((user) => {
-    // console.log(user)
     res.status(200).json(user);
   }).catch((err) => { res.status(404).json(err) })
 }
@@ -210,4 +215,51 @@ exports.requestResetPassword = async (req, res, next) => {
 }
 exports.resetPassword = async (req, res, next) => {
   resetPassword(req, res)
+}
+
+//Update validation
+exports.updateValidation = async (req, res, next) => {
+  
+  const userId = req.params.id;
+  const update = req.body.verificationObj;
+  User.findOneAndUpdate({_id:userId},{$set:{
+    "validationOptions.identityJustificatifRecto": update[0].statusCode,
+    "validationOptions.identityJustificatifVerso": update[1].statusCode,
+    "validationOptions.adressJustificatif": update[2].statusCode,
+     "validationOptions.chassePermisJustificatif": update[3].statusCode,
+      "validationOptions.licenceTirJustificatif": update[4].statusCode,
+       "validationOptions.licenceTirFftJustificatif": update[5].statusCode,
+       "validationOptions.permisChasseFFBTJustificatif": update[6].statusCode,
+    
+  }},{new:true}, (error, user) => {
+    if(error) res.status(500).json({ error: error })
+    if(user){
+      
+      if(user.validationOptions.identityJustificatifRecto===true && 
+        user.validationOptions.identityJustificatifVerso===true &&
+        user.validationOptions.adressJustificatif===true &&
+        user.validationOptions.chassePermisJustificatif===true &&
+        user.validationOptions.licenceTirJustificatif === true &&
+        user.validationOptions.licenceTirFftJustificatif ===true &&
+        user.validationOptions.permisChasseFFBTJustificatif === true
+        ) {
+          User.findOneAndUpdate({_id: userId},  {isValided:true}, {new:true},(error, user)=>{
+            if(error) res.status(500).json({ error: error })
+            if(user){
+              console.log('user:', user)
+            }
+          })
+        } else {
+          User.findOneAndUpdate({_id: userId},  {isValided:false}, {new:true},(error, user)=>{
+            if(error) res.status(500).json({ error: error })
+            if(user){
+              console.log('user:', user)
+            }
+          })
+        }
+      return res.status(200).json({ message: "Validation mis à jour"})
+
+    }
+  })
+
 }

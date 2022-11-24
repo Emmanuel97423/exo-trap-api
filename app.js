@@ -28,6 +28,7 @@ mongoose
   })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch((error) => console.log("Connexion à MongoDB échouée !: " + error));
+  mongoose.set('useFindAndModify', false);
 
 
 
