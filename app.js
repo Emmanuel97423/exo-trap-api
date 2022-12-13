@@ -9,6 +9,7 @@ const categoryRoute = require("./routes/category.route");
 const ProductGammesRoute = require('./routes/gammes.route');
 const searchRoute = require("./routes/search.route");
 const paymentRoute = require("./routes/payment.route");
+const slideRoute = require("./routes/slide.route");
 const cors = require('cors')
 
 
@@ -88,4 +89,5 @@ app.use('/api/category', categoryRoute)
 
 app.use('/api/search', searchRoute)
 
+app.use('/api/slides', slideRoute)
 module.exports = app;
