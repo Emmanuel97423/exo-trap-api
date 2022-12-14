@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const slideSchema = mongoose.Schema({ 
+	codeSlide:{type:String, required:true},
     imageUrl: { type:String, required:true},
     title: { type:String, required:true},
     description: { type:String, required:true},

@@ -58,16 +58,19 @@ router.post('/', upload.single('slide01'), async (req, res) => {
         if(error) console.log(error);
         if(result) {
 
-        Slide.findOneAndUpdate({ imageUrl : result.secure_url } , { 
+        Slide.findOneAndUpdate({ codeSlide : "01" } , { 
           title:titleSlide,
           description:descriptionSlide,
           imageUrl : result.secure_url
         }, { new :true }, (error, slideUpdateResult)=>{
-        if(error)  res.status(500).json({ "message": "Une Erreur s'est produite", "error": err });;
+        if(error)  {
+          console.log('error:', error)
+          res.status(500).json({ "message": "Une Erreur s'est produite", "error": err })
+        };
         if(slideUpdateResult) res.status(200).json({"message": "Mise à jour terminé"});
         if(!slideUpdateResult) {
           const slide = new Slide({
-            slideCode:"slide01",
+            codeSlide:"01",
             title: titleSlide,
             description: descriptionSlide,
             imageUrl: result.secure_url,
@@ -85,5 +88,12 @@ router.post('/', upload.single('slide01'), async (req, res) => {
 
 
 });
+
+router.get('/', async (req, res, next)=>{
+  Slide.find({}, (error, slide)=>{
+    if(error) return res.status(500).json({ "message": "Une Erreur s'est produite", "error": err });
+    if(slide) return res.status(200).json({slide})
+  })
+})
 
 module.exports = router;
